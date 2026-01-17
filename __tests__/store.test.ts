@@ -15,6 +15,22 @@ describe('POS Store', () => {
     expect(cart[0].id).toBe(product.id);
   });
 
+  it('should add item by barcode', () => {
+    const { products, addToCartByBarcode } = useStore.getState();
+    const product = products[0];
+    const success = addToCartByBarcode(product.barcode);
+    expect(success).toBe(true);
+    const { cart } = useStore.getState();
+    expect(cart.find(i => i.id === product.id)).toBeDefined();
+  });
+
+  it('should apply discount', () => {
+    const { applyDiscount } = useStore.getState();
+    applyDiscount(10);
+    const { currentDiscount } = useStore.getState();
+    expect(currentDiscount).toBe(10);
+  });
+
   it('should clear cart after sale', () => {
     const { products, addToCart, completeSale } = useStore.getState();
     const product = products[0];
@@ -23,7 +39,10 @@ describe('POS Store', () => {
     const cartBefore = useStore.getState().cart;
     completeSale({
       items: cartBefore,
-      total: 100,
+      subtotal: 100,
+      tax: 8,
+      discount: 0,
+      total: 108,
       paymentMethod: 'Cash'
     });
 

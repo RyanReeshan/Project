@@ -9,6 +9,7 @@ export interface Product {
   color: string;
   stock: number;
   sku: string;
+  barcode: string;
   image?: string;
 }
 
@@ -19,6 +20,9 @@ export interface CartItem extends Product {
 export interface Sale {
   id: string;
   items: CartItem[];
+  subtotal: number;
+  tax: number;
+  discount: number;
   total: number;
   timestamp: number;
   customerId?: string;

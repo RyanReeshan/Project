@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useStore } from '@/lib/store';
 import {
   Search,
@@ -10,7 +10,9 @@ import {
   Minus,
   CreditCard,
   Banknote,
-  CheckCircle2
+  CheckCircle2,
+  Barcode,
+  Tag
 } from 'lucide-react';
 import { Category, Product } from '@/lib/types';
 import { clsx, type ClassValue } from 'clsx';
@@ -21,11 +23,24 @@ function cn(...inputs: ClassValue[]) {
 }
 
 export default function POSPage() {
-  const { products, cart, addToCart, removeFromCart, updateCartQuantity, completeSale } = useStore();
+  const {
+    products,
+    cart,
+    currentDiscount,
+    addToCart,
+    addToCartByBarcode,
+    removeFromCart,
+    updateCartQuantity,
+    applyDiscount,
+    completeSale
+  } = useStore();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [showReceipt, setShowReceipt] = useState(false);
   const [lastSale, setLastSale] = useState<any>(null);
+  const [barcodeInput, setBarcodeInput] = useState('');
+  const barcodeRef = useRef<HTMLInputElement>(null);
 
   const categories: string[] = ['All', 'T-Shirts', 'Jeans', 'Dresses', 'Jackets', 'Accessories', 'Shoes'];
 
@@ -36,15 +51,20 @@ export default function POSPage() {
     return matchesSearch && matchesCategory && product.stock > 0;
   });
 
-  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const tax = cartTotal * 0.08; // 8% tax
-  const finalTotal = cartTotal + tax;
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const discount = currentDiscount;
+  const taxableAmount = Math.max(0, subtotal - discount);
+  const tax = taxableAmount * 0.08; // 8% tax
+  const finalTotal = taxableAmount + tax;
 
   const handleCheckout = (paymentMethod: 'Cash' | 'Card') => {
     if (cart.length === 0) return;
 
     const sale = {
       items: [...cart],
+      subtotal,
+      tax,
+      discount,
       total: finalTotal,
       paymentMethod,
     };
@@ -54,8 +74,39 @@ export default function POSPage() {
     setShowReceipt(true);
   };
 
+  const handleBarcodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (barcodeInput) {
+      const success = addToCartByBarcode(barcodeInput);
+      if (!success) {
+        alert('Product not found or out of stock');
+      }
+      setBarcodeInput('');
+    }
+  };
+
+  // Keep barcode input focused for rapid scanning
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (document.activeElement?.tagName !== 'INPUT' && barcodeRef.current) {
+        barcodeRef.current.focus();
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
+      {/* Hidden Barcode Input for Scanner */}
+      <form onSubmit={handleBarcodeSubmit} className="absolute opacity-0 pointer-events-none">
+        <input
+          ref={barcodeRef}
+          type="text"
+          value={barcodeInput}
+          onChange={(e) => setBarcodeInput(e.target.value)}
+          autoFocus
+        />
+      </form>
       {/* Product Selection Area */}
       <div className="flex-1 flex flex-col p-6 overflow-hidden">
         <div className="mb-6 flex flex-col md:flex-row gap-4 items-center">
@@ -115,11 +166,15 @@ export default function POSPage() {
 
       {/* Cart Sidebar */}
       <div className="w-[400px] bg-white border-l border-slate-200 flex flex-col">
-        <div className="p-6 border-b border-slate-100">
+        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
             <ShoppingCart className="text-blue-600" />
-            Current Order
+            Order
           </h2>
+          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded">
+            <Barcode size={12} />
+            SCANNER ACTIVE
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -164,8 +219,58 @@ export default function POSPage() {
         <div className="p-6 bg-slate-50 border-t border-slate-200 space-y-3">
           <div className="flex justify-between text-slate-600">
             <span>Subtotal</span>
-            <span>${cartTotal.toFixed(2)}</span>
+            <span>${subtotal.toFixed(2)}</span>
           </div>
+
+          <div className="flex flex-col gap-2 py-2">
+            <div className="flex justify-between items-center text-slate-600 text-sm">
+              <span className="flex items-center gap-1">
+                <Tag size={14} className="text-blue-600" />
+                Discount
+              </span>
+              <div className="flex items-center gap-1">
+                <span className="font-bold text-red-600">-${discount.toFixed(2)}</span>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => applyDiscount(0)}
+                className={cn(
+                  "flex-1 py-1 text-[10px] font-bold rounded border transition-colors",
+                  discount === 0 ? "bg-blue-600 border-blue-600 text-white" : "bg-white border-slate-200 text-slate-400 hover:bg-slate-50"
+                )}
+              >
+                NONE
+              </button>
+              {[5, 10, 20].map((amt) => (
+                <button
+                  key={amt}
+                  onClick={() => applyDiscount(amt)}
+                  className={cn(
+                    "flex-1 py-1 text-[10px] font-bold rounded border transition-colors",
+                    discount === amt ? "bg-blue-600 border-blue-600 text-white" : "bg-white border-slate-200 text-slate-400 hover:bg-slate-50"
+                  )}
+                >
+                  ${amt}
+                </button>
+              ))}
+              <button
+                onClick={() => {
+                  const custom = prompt('Enter discount amount:');
+                  if (custom && !isNaN(parseFloat(custom))) {
+                    applyDiscount(parseFloat(custom));
+                  }
+                }}
+                className={cn(
+                  "flex-1 py-1 text-[10px] font-bold rounded border transition-colors",
+                  ![0, 5, 10, 20].includes(discount) ? "bg-blue-600 border-blue-600 text-white" : "bg-white border-slate-200 text-slate-400 hover:bg-slate-50"
+                )}
+              >
+                CUSTOM
+              </button>
+            </div>
+          </div>
+
           <div className="flex justify-between text-slate-600 text-sm">
             <span>Tax (8%)</span>
             <span>${tax.toFixed(2)}</span>
