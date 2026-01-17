@@ -1,152 +1,184 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useStore } from '@/lib/store';
+import { useState, useEffect } from 'react';
 import {
-  TrendingUp,
   Users,
   Package,
-  DollarSign,
+  ShoppingCart,
+  TrendingUp,
+  TrendingDown,
   ArrowUpRight,
-  ShoppingBag,
-  Loader2
+  CreditCard,
+  Banknote,
+  Plus
 } from 'lucide-react';
+import { getSales, getProducts, getCustomers } from '@/lib/actions';
 import { format } from 'date-fns';
-import { getProducts, getSales, getCustomers } from '@/lib/actions';
 
 export default function Dashboard() {
-  const { sales, products, customers, setSales, setProducts, setCustomers } = useStore();
+  const [stats, setStats] = useState({
+    revenue: 0,
+    salesCount: 0,
+    productCount: 0,
+    customerCount: 0,
+    recentSales: [] as any[]
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadDashboardData();
+    async function loadStats() {
+      const [sales, products, customers] = await Promise.all([
+        getSales(),
+        getProducts(),
+        getCustomers()
+      ]);
+
+      const activeSales = sales.filter((s: any) => s.status !== 'REFUNDED');
+      const revenue = activeSales.reduce((sum: number, s: any) => sum + s.total, 0);
+
+      setStats({
+        revenue,
+        salesCount: activeSales.length,
+        productCount: products.length,
+        customerCount: customers.length,
+        recentSales: sales.slice(0, 5)
+      });
+      setLoading(false);
+    }
+    loadStats();
   }, []);
 
-  async function loadDashboardData() {
-    setLoading(true);
-    const [salesData, productsData, customersData] = await Promise.all([
-      getSales(),
-      getProducts(),
-      getCustomers()
-    ]);
-    setSales(salesData as any);
-    setProducts(productsData as any);
-    setCustomers(customersData as any);
-    setLoading(false);
-  }
-
-  const totalRevenue = sales.reduce((sum, sale) => sum + sale.total, 0);
-  const totalSales = sales.length;
-  const totalCustomers = customers.length;
-  const lowStockItems = products.filter(p => p.stock < 10).length;
-
-  const recentSales = sales.slice(0, 5);
-
-  const stats = [
-    { label: 'Total Revenue', value: `$${totalRevenue.toFixed(2)}`, icon: DollarSign, color: 'text-green-600', bg: 'bg-green-100' },
-    { label: 'Total Sales', value: totalSales, icon: ShoppingBag, color: 'text-blue-600', bg: 'bg-blue-100' },
-    { label: 'Total Customers', value: totalCustomers, icon: Users, color: 'text-purple-600', bg: 'bg-purple-100' },
-    { label: 'Low Stock Alert', value: lowStockItems, icon: Package, color: 'text-red-600', bg: 'bg-red-100' },
-  ];
-
   if (loading) {
-    return (
-      <div className="h-full flex items-center justify-center p-8">
-        <Loader2 className="animate-spin text-blue-600" size={40} />
+    return <div className="p-8 animate-pulse space-y-8">
+      <div className="h-10 w-48 bg-slate-200 rounded" />
+      <div className="grid grid-cols-4 gap-6">
+        {[1,2,3,4].map(i => <div key={i} className="h-32 bg-slate-100 rounded-2xl" />)}
       </div>
-    );
+    </div>;
   }
 
   return (
-    <div className="p-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-500">Welcome back! Here's what's happening today (Real Database).</p>
+    <div className="p-8 max-w-7xl mx-auto space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-slate-900">Dashboard Overview</h1>
+        <p className="text-slate-500">Welcome back, here's what's happening today.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {stats.map((stat, i) => (
-          <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-4">
-              <div className={`${stat.bg} ${stat.color} p-3 rounded-xl`}>
-                <stat.icon size={24} />
-              </div>
-              <div className="flex items-center text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                <ArrowUpRight size={14} className="mr-1" />
-                12%
-              </div>
-            </div>
-            <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-            <div className="text-sm text-slate-500">{stat.label}</div>
-          </div>
-        ))}
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard
+          title="Total Revenue"
+          value={`Rs. ${stats.revenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+          icon={<TrendingUp className="text-blue-600" />}
+          trend="+12% from yesterday"
+          positive={true}
+        />
+        <StatCard
+          title="Total Sales"
+          value={stats.salesCount.toString()}
+          icon={<ShoppingCart className="text-purple-600" />}
+          trend="+5% from yesterday"
+          positive={true}
+        />
+        <StatCard
+          title="Total Products"
+          value={stats.productCount.toString()}
+          icon={<Package className="text-orange-600" />}
+          trend="In stock items"
+          positive={true}
+        />
+        <StatCard
+          title="Total Customers"
+          value={stats.customerCount.toString()}
+          icon={<Users className="text-green-600" />}
+          trend="Loyalty members"
+          positive={true}
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="p-6 border-b border-slate-50 flex justify-between items-center">
-            <h2 className="font-bold text-slate-900">Recent Transactions</h2>
-            <button className="text-blue-600 text-sm font-semibold hover:underline">View All</button>
+        {/* Recent Transactions */}
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div className="p-6 border-b border-slate-200 flex justify-between items-center">
+            <h2 className="text-lg font-bold text-slate-900">Recent Transactions</h2>
+            <button className="text-sm font-bold text-blue-600 hover:text-blue-700">View All</button>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
-                <tr>
-                  <th className="p-4 font-medium">Order ID</th>
-                  <th className="p-4 font-medium">Date</th>
-                  <th className="p-4 font-medium">Items</th>
-                  <th className="p-4 font-medium">Total</th>
-                  <th className="p-4 font-medium">Method</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {recentSales.map((sale) => (
-                  <tr key={sale.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="p-4 text-sm font-semibold text-slate-900 truncate max-w-[100px]">#{sale.id}</td>
-                    <td className="p-4 text-sm text-slate-500">{format(new Date(sale.timestamp), 'MMM dd, HH:mm')}</td>
-                    <td className="p-4 text-sm text-slate-500">{(sale as any).items?.length || 0} items</td>
-                    <td className="p-4 text-sm font-bold text-slate-900">${sale.total.toFixed(2)}</td>
-                    <td className="p-4">
-                      <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                        sale.paymentMethod === 'Card' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
-                      }`}>
-                        {sale.paymentMethod}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-                {recentSales.length === 0 && (
-                  <tr>
-                    <td colSpan={5} className="p-8 text-center text-slate-400">No transactions yet.</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+          <div className="divide-y divide-slate-100">
+            {stats.recentSales.length === 0 ? (
+              <div className="p-12 text-center text-slate-400">No transactions yet.</div>
+            ) : (
+              stats.recentSales.map((sale) => (
+                <div key={sale.id} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className={`p-2 rounded-xl ${sale.paymentMethod === 'Cash' ? 'bg-green-50 text-green-600' : 'bg-blue-50 text-blue-600'}`}>
+                      {sale.paymentMethod === 'Cash' ? <Banknote size={20} /> : <CreditCard size={20} />}
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900">{sale.customer?.name || 'Guest Customer'}</p>
+                      <p className="text-xs text-slate-500">{format(new Date(sale.timestamp), 'MMM d, h:mm a')}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className={`font-black ${sale.status === 'REFUNDED' ? 'text-red-500 line-through' : 'text-slate-900'}`}>
+                      Rs. {sale.total.toFixed(2)}
+                    </p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{sale.paymentMethod}</p>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h2 className="font-bold text-slate-900 mb-6">Top Selling Products</h2>
-          <div className="space-y-6">
-            {products.slice(0, 4).map((product) => (
-              <div key={product.id} className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 shrink-0">
-                  <Package size={20} />
+        {/* Quick Actions / Stock Alert */}
+        <div className="space-y-6">
+          <div className="bg-blue-600 rounded-2xl p-6 text-white shadow-lg shadow-blue-200 relative overflow-hidden group">
+            <Plus className="absolute -right-4 -bottom-4 w-32 h-32 text-blue-500/20 group-hover:scale-110 transition-transform" />
+            <h3 className="text-xl font-bold mb-2">New Sale</h3>
+            <p className="text-blue-100 text-sm mb-6">Start a new checkout session and process orders quickly.</p>
+            <a href="/pos" className="inline-block bg-white text-blue-600 px-6 py-2 rounded-lg font-bold hover:bg-blue-50 transition-colors">
+              Open POS
+            </a>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-slate-200 p-6">
+            <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <Package size={18} className="text-orange-500" />
+              Inventory Alert
+            </h3>
+            <div className="space-y-4">
+              <p className="text-xs text-slate-500">Following items are running low on stock.</p>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-600">Blue Denim Jeans (M)</span>
+                  <span className="font-bold text-red-600">2 left</span>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-slate-900 truncate text-sm">{product.name}</h4>
-                  <p className="text-xs text-slate-500">{product.category}</p>
-                </div>
-                <div className="text-right">
-                  <div className="font-bold text-slate-900 text-sm">${product.price.toFixed(2)}</div>
-                  <div className="text-[10px] text-slate-400">{product.stock} in stock</div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-600">White Cotton T-Shirt (L)</span>
+                  <span className="font-bold text-orange-600">5 left</span>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
-          <button className="w-full mt-8 py-3 bg-slate-50 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-100 transition-colors border border-slate-200">
-            View Inventory
-          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ title, value, icon, trend, positive }: any) {
+  return (
+    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex justify-between items-start mb-4">
+        <div className="p-2 bg-slate-50 rounded-xl">{icon}</div>
+        <ArrowUpRight size={20} className="text-slate-300" />
+      </div>
+      <div>
+        <p className="text-sm font-medium text-slate-500 mb-1">{title}</p>
+        <p className="text-2xl font-black text-slate-900">{value}</p>
+        <div className="mt-2 flex items-center gap-1">
+          {positive ? <TrendingUp size={14} className="text-green-500" /> : <TrendingDown size={14} className="text-red-500" />}
+          <span className={`text-xs font-bold ${positive ? 'text-green-600' : 'text-red-600'}`}>{trend}</span>
         </div>
       </div>
     </div>

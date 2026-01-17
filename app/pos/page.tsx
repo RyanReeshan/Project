@@ -13,7 +13,9 @@ import {
   UserPlus,
   Tag,
   Barcode,
-  Loader2
+  Loader2,
+  Printer,
+  Percent
 } from 'lucide-react';
 import { Product, CartItem, Customer } from '@/lib/types';
 import { getProducts, getCustomers, createSale, addCustomer } from '@/lib/actions';
@@ -28,6 +30,7 @@ export default function POSPage() {
     clearCart,
     applyDiscount,
     currentDiscount,
+    discountType,
     setProducts,
     setCustomers,
     customers,
@@ -44,6 +47,7 @@ export default function POSPage() {
   const barcodeInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(true);
   const [checkingOut, setCheckingOut] = useState(false);
+  const [tenderedAmount, setTenderedAmount] = useState<string>('');
 
   useEffect(() => {
     loadData();
@@ -88,11 +92,103 @@ export default function POSPage() {
   });
 
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const discountAmount = currentDiscount;
+
+  let discountAmount = 0;
+  if (discountType === 'amount') {
+    discountAmount = currentDiscount;
+  } else {
+    discountAmount = subtotal * (currentDiscount / 100);
+  }
+
   const tax = (subtotal - discountAmount) * 0.08;
   const total = subtotal - discountAmount + tax;
 
+  const changeAmount = tenderedAmount ? Math.max(0, parseFloat(tenderedAmount) - total) : 0;
+
+  const handlePrint = (sale: any) => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const receiptHtml = `
+      <html>
+        <head>
+          <title>Receipt - ${sale.id}</title>
+          <style>
+            body { font-family: 'Courier New', Courier, monospace; width: 300px; margin: 0 auto; padding: 20px; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .divider { border-top: 1px dashed #000; margin: 10px 0; }
+            .item { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+            .total { font-weight: bold; font-size: 16px; margin-top: 10px; }
+            .footer { text-align: center; margin-top: 30px; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h2>VoguePOS</h2>
+            <p>123 Fashion Street, Colombo</p>
+            <p>Tel: 011-2345678</p>
+          </div>
+          <p>Date: ${new Date().toLocaleString()}</p>
+          <p>Receipt: ${sale.id.slice(-8).toUpperCase()}</p>
+          <div class="divider"></div>
+          ${cart.map(item => `
+            <div class="item">
+              <span>${item.name} x ${item.quantity}</span>
+              <span>Rs. ${(item.price * item.quantity).toFixed(2)}</span>
+            </div>
+          `).join('')}
+          <div class="divider"></div>
+          <div class="item">
+            <span>Subtotal</span>
+            <span>Rs. ${subtotal.toFixed(2)}</span>
+          </div>
+          <div class="item">
+            <span>Discount ${discountType === 'percentage' ? '(' + currentDiscount + '%)' : ''}</span>
+            <span>Rs. ${discountAmount.toFixed(2)}</span>
+          </div>
+          <div class="item">
+            <span>Tax (8%)</span>
+            <span>Rs. ${tax.toFixed(2)}</span>
+          </div>
+          <div class="item total">
+            <span>TOTAL</span>
+            <span>Rs. ${total.toFixed(2)}</span>
+          </div>
+          <div class="divider"></div>
+          <div class="item">
+            <span>Payment: ${paymentMethod}</span>
+            <span>Rs. ${paymentMethod === 'Cash' ? parseFloat(tenderedAmount).toFixed(2) : total.toFixed(2)}</span>
+          </div>
+          ${paymentMethod === 'Cash' ? `
+          <div class="item">
+            <span>Balance</span>
+            <span>Rs. ${changeAmount.toFixed(2)}</span>
+          </div>
+          ` : ''}
+          <div class="footer">
+            <p>Thank you for shopping with us!</p>
+            <p>Please come again.</p>
+          </div>
+          <script>
+            window.onload = function() {
+              window.print();
+              setTimeout(function() { window.close(); }, 500);
+            }
+          </script>
+        </body>
+      </html>
+    `;
+
+    printWindow.document.write(receiptHtml);
+    printWindow.document.close();
+  };
+
   const handleCheckout = async () => {
+    if (paymentMethod === 'Cash' && (!tenderedAmount || parseFloat(tenderedAmount) < total)) {
+      alert('Insufficient cash tendered');
+      return;
+    }
+
     setCheckingOut(true);
     const saleData = {
       items: cart.map(item => ({
@@ -104,6 +200,8 @@ export default function POSPage() {
       tax,
       discount: discountAmount,
       total,
+      tenderedAmount: paymentMethod === 'Cash' ? parseFloat(tenderedAmount) : total,
+      changeAmount: paymentMethod === 'Cash' ? changeAmount : 0,
       paymentMethod,
       customerId: selectedCustomer || undefined
     };
@@ -112,10 +210,11 @@ export default function POSPage() {
     setCheckingOut(false);
 
     if (result.success) {
+      handlePrint(result.sale);
       clearCart();
       setIsCheckoutModalOpen(false);
+      setTenderedAmount('');
       loadData(); // Reload to get updated stock
-      alert('Transaction completed successfully!');
     } else {
       alert(result.error || 'Failed to complete transaction');
     }
@@ -193,7 +292,7 @@ export default function POSPage() {
                   <h3 className="font-semibold text-slate-900 truncate w-full">{product.name}</h3>
                   <p className="text-xs text-slate-500 mb-2">{product.category} • {product.size}</p>
                   <div className="mt-auto flex justify-between items-center">
-                    <span className="font-bold text-blue-600">${product.price.toFixed(2)}</span>
+                    <span className="font-bold text-blue-600">Rs. {product.price.toFixed(2)}</span>
                     <span className={`text-[10px] px-1.5 py-0.5 rounded ${
                       product.stock < 10 ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'
                     }`}>
@@ -243,7 +342,7 @@ export default function POSPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-medium text-slate-900 truncate">{item.name}</h4>
-                  <p className="text-xs text-slate-500">${item.price.toFixed(2)} each</p>
+                  <p className="text-xs text-slate-500">Rs. {item.price.toFixed(2)} each</p>
                   <div className="flex items-center gap-2 mt-2">
                     <button
                       onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
@@ -261,7 +360,7 @@ export default function POSPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-slate-900">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="font-bold text-slate-900">Rs. {(item.price * item.quantity).toFixed(2)}</p>
                   <button
                     onClick={() => removeFromCart(item.id)}
                     className="text-xs text-red-500 hover:underline mt-2"
@@ -298,35 +397,47 @@ export default function POSPage() {
             </button>
           </div>
 
-          <div className="flex gap-2">
-            <button
-              onClick={() => applyDiscount(5)}
-              className={`flex-1 py-1 px-2 rounded border text-xs font-medium transition-colors ${currentDiscount === 5 ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}
-            >
-              -$5 Off
-            </button>
-            <button
-              onClick={() => applyDiscount(10)}
-              className={`flex-1 py-1 px-2 rounded border text-xs font-medium transition-colors ${currentDiscount === 10 ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}
-            >
-              -$10 Off
-            </button>
-            <button
-              onClick={() => applyDiscount(20)}
-              className={`flex-1 py-1 px-2 rounded border text-xs font-medium transition-colors ${currentDiscount === 20 ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}
-            >
-              -$20 Off
-            </button>
-            <button
-              onClick={() => {
-                const val = prompt('Enter discount amount:');
-                if (val) applyDiscount(parseFloat(val));
-              }}
-              className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 text-slate-600"
-              title="Custom Discount"
-            >
-              <Tag size={16} />
-            </button>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+               <button
+                onClick={() => applyDiscount(currentDiscount, discountType === 'amount' ? 'percentage' : 'amount')}
+                className="flex items-center gap-1 px-2 py-1 bg-white border border-slate-200 rounded text-xs font-bold text-blue-600 hover:bg-blue-50"
+              >
+                {discountType === 'amount' ? <Banknote size={14} /> : <Percent size={14} />}
+                {discountType === 'amount' ? 'Fixed Amount' : 'Percentage'}
+              </button>
+              <span className="text-[10px] text-slate-400">Click to toggle type</span>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => applyDiscount(5, discountType)}
+                className={`flex-1 py-1 px-2 rounded border text-xs font-medium transition-colors ${currentDiscount === 5 ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}
+              >
+                {discountType === 'amount' ? '-Rs. 5' : '5%'}
+              </button>
+              <button
+                onClick={() => applyDiscount(10, discountType)}
+                className={`flex-1 py-1 px-2 rounded border text-xs font-medium transition-colors ${currentDiscount === 10 ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}
+              >
+                {discountType === 'amount' ? '-Rs. 10' : '10%'}
+              </button>
+              <button
+                onClick={() => applyDiscount(20, discountType)}
+                className={`flex-1 py-1 px-2 rounded border text-xs font-medium transition-colors ${currentDiscount === 20 ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}
+              >
+                {discountType === 'amount' ? '-Rs. 20' : '20%'}
+              </button>
+              <button
+                onClick={() => {
+                  const val = prompt(`Enter discount ${discountType === 'amount' ? 'amount' : 'percentage'}:`);
+                  if (val) applyDiscount(parseFloat(val), discountType);
+                }}
+                className="p-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 text-slate-600"
+                title="Custom Discount"
+              >
+                <Tag size={16} />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -334,21 +445,21 @@ export default function POSPage() {
         <div className="p-6 bg-white border-t border-slate-200 space-y-3">
           <div className="flex justify-between text-slate-600">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>Rs. {subtotal.toFixed(2)}</span>
           </div>
           {discountAmount > 0 && (
             <div className="flex justify-between text-green-600 font-medium">
-              <span>Discount</span>
-              <span>-${discountAmount.toFixed(2)}</span>
+              <span>Discount {discountType === 'percentage' ? '(' + currentDiscount + '%)' : ''}</span>
+              <span>-Rs. {discountAmount.toFixed(2)}</span>
             </div>
           )}
           <div className="flex justify-between text-slate-600 text-sm">
             <span>Tax (8%)</span>
-            <span>${tax.toFixed(2)}</span>
+            <span>Rs. {tax.toFixed(2)}</span>
           </div>
           <div className="flex justify-between text-xl font-bold text-slate-900 pt-2 border-t border-slate-100">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>Rs. {total.toFixed(2)}</span>
           </div>
           <button
             disabled={cart.length === 0}
@@ -369,10 +480,30 @@ export default function POSPage() {
               <button onClick={() => setIsCheckoutModalOpen(false)} className="text-slate-400 hover:text-slate-600">&times;</button>
             </div>
             <div className="p-6 space-y-6">
-              <div className="text-center">
+              <div className="text-center p-4 bg-slate-50 rounded-xl">
                 <p className="text-slate-500 mb-1">Total Amount Due</p>
-                <p className="text-4xl font-black text-slate-900">${total.toFixed(2)}</p>
+                <p className="text-4xl font-black text-slate-900">Rs. {total.toFixed(2)}</p>
               </div>
+
+              {paymentMethod === 'Cash' && (
+                <div className="space-y-4 py-4 border-y border-slate-100">
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Cash Tendered (Rs.)</label>
+                    <input
+                      type="number"
+                      placeholder="0.00"
+                      className="w-full text-3xl font-bold text-center py-4 border-2 border-blue-600 rounded-xl outline-none focus:ring-4 focus:ring-blue-100"
+                      value={tenderedAmount}
+                      onChange={(e) => setTenderedAmount(e.target.value)}
+                      autoFocus
+                    />
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg border border-green-100">
+                    <span className="font-bold text-green-700">Balance / Change</span>
+                    <span className="text-2xl font-black text-green-700">Rs. {changeAmount.toFixed(2)}</span>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-3">
                 <p className="text-sm font-semibold text-slate-700">Select Payment Method</p>

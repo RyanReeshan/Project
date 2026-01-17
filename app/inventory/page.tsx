@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useStore } from '@/lib/store';
 import { Plus, Search, Filter, Edit2, Trash2, Loader2 } from 'lucide-react';
-import { Product, Category } from '@/lib/types';
+import { Product } from '@/lib/types';
 import { getProducts, addProduct, updateProduct, deleteProduct } from '@/lib/actions';
 
 export default function InventoryPage() {
@@ -55,28 +55,28 @@ export default function InventoryPage() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">Inventory Management</h1>
-          <p className="text-slate-500">Manage your clothing items and stock levels (Real Database)</p>
+          <p className="text-slate-500">Manage your clothing items and stock levels</p>
         </div>
         <button
           onClick={handleAdd}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow-lg shadow-blue-200 transition-all active:scale-95"
         >
           <Plus size={20} />
           <span>Add Product</span>
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <div className="p-4 border-b border-slate-200 flex flex-col md:flex-row gap-4 justify-between">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <input
               type="text"
-              placeholder="Search by name or SKU..."
+              placeholder="Search by name, SKU or barcode..."
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -110,7 +110,7 @@ export default function InventoryPage() {
           ) : (
             <>
               <table className="w-full text-left border-collapse">
-                <thead className="bg-slate-50 text-slate-500 font-medium text-sm">
+                <thead className="bg-slate-50 text-slate-500 font-bold text-xs uppercase tracking-wider">
                   <tr>
                     <th className="p-4 border-b">Product Info</th>
                     <th className="p-4 border-b">Barcode</th>
@@ -121,43 +121,47 @@ export default function InventoryPage() {
                     <th className="p-4 border-b text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200">
+                <tbody className="divide-y divide-slate-100">
                   {filteredProducts.map((product) => (
                     <tr key={product.id} className="hover:bg-slate-50 transition-colors">
                       <td className="p-4">
-                        <div className="font-semibold text-slate-900">{product.name}</div>
-                        <div className="text-xs text-slate-500">{product.sku}</div>
+                        <div className="font-bold text-slate-900">{product.name}</div>
+                        <div className="text-[10px] font-mono text-slate-400">{product.sku}</div>
                       </td>
                       <td className="p-4">
-                        <div className="text-xs font-mono bg-slate-100 px-2 py-1 rounded w-fit">{product.barcode}</div>
+                        <div className="text-xs font-mono bg-slate-100 px-2 py-1 rounded w-fit border border-slate-200">{product.barcode}</div>
                       </td>
-                      <td className="p-4 text-slate-600">{product.category}</td>
+                      <td className="p-4">
+                         <span className="text-xs font-medium text-slate-600 bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-full">
+                           {product.category}
+                         </span>
+                      </td>
                       <td className="p-4 text-slate-600">
-                        <span className="bg-slate-100 px-2 py-1 rounded text-xs">{product.size}</span>
-                        <span className="ml-2 text-xs">{product.color}</span>
+                        <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold border border-blue-100">{product.size}</span>
+                        <span className="ml-2 text-xs font-medium">{product.color}</span>
                       </td>
-                      <td className="p-4 font-medium text-slate-900">${product.price.toFixed(2)}</td>
+                      <td className="p-4 font-bold text-slate-900">Rs. {product.price.toFixed(2)}</td>
                       <td className="p-4">
                         <div className="flex items-center gap-2">
-                          <div className={`h-2 w-2 rounded-full ${product.stock < 10 ? 'bg-red-500' : 'bg-green-500'}`} />
-                          <span className={product.stock < 10 ? 'text-red-600 font-medium' : 'text-slate-600'}>
-                            {product.stock} in stock
+                          <div className={`h-2 w-2 rounded-full ${product.stock < 10 ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`} />
+                          <span className={`text-xs font-bold ${product.stock < 10 ? 'text-red-600' : 'text-slate-600'}`}>
+                            {product.stock} pcs
                           </span>
                         </div>
                       </td>
                       <td className="p-4 text-right">
-                        <div className="flex justify-end gap-2">
+                        <div className="flex justify-end gap-1">
                           <button
                             onClick={() => handleEdit(product)}
                             className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                           >
-                            <Edit2 size={18} />
+                            <Edit2 size={16} />
                           </button>
                           <button
                             onClick={() => handleDelete(product.id)}
                             className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           >
-                            <Trash2 size={18} />
+                            <Trash2 size={16} />
                           </button>
                         </div>
                       </td>
@@ -166,8 +170,9 @@ export default function InventoryPage() {
                 </tbody>
               </table>
               {filteredProducts.length === 0 && (
-                <div className="p-8 text-center text-slate-500">
-                  No products found matching your criteria.
+                <div className="p-12 text-center text-slate-500 bg-slate-50/50">
+                  <Plus size={48} className="mx-auto mb-4 opacity-10" />
+                  <p className="font-medium">No products found matching your search</p>
                 </div>
               )}
             </>
@@ -221,16 +226,16 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-lg w-full overflow-hidden">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden animate-in zoom-in-95 duration-200">
         <div className="p-6 border-b border-slate-200 flex justify-between items-center">
           <h2 className="text-xl font-bold text-slate-900">{product ? 'Edit Product' : 'Add New Product'}</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600">&times;</button>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-2xl font-light">&times;</button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-slate-700 mb-1">Product Name</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Product Name</label>
               <input
                 type="text"
                 required
@@ -240,11 +245,11 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Category</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Category</label>
               <select
-                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none bg-white"
                 value={formData.category}
-                onChange={(e) => setFormData({...formData, category: e.target.value as Category})}
+                onChange={(e) => setFormData({...formData, category: e.target.value})}
               >
                 <option value="T-Shirts">T-Shirts</option>
                 <option value="Jeans">Jeans</option>
@@ -255,7 +260,7 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Price ($)</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Price (Rs.)</label>
               <input
                 type="number"
                 step="0.01"
@@ -266,17 +271,18 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Size</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Size</label>
               <input
                 type="text"
                 required
+                placeholder="e.g. M, 32, 10"
                 className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
                 value={formData.size}
                 onChange={(e) => setFormData({...formData, size: e.target.value})}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Color</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Color</label>
               <input
                 type="text"
                 required
@@ -286,7 +292,7 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Stock Level</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Stock Level</label>
               <input
                 type="number"
                 required
@@ -296,7 +302,7 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">SKU</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">SKU Code</label>
               <input
                 type="text"
                 required
@@ -305,8 +311,8 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
                 onChange={(e) => setFormData({...formData, sku: e.target.value})}
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Barcode</label>
+            <div className="col-span-2">
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Barcode</label>
               <input
                 type="text"
                 required
@@ -316,22 +322,22 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
               />
             </div>
           </div>
-          <div className="pt-4 flex gap-3">
+          <div className="pt-6 flex gap-3">
             <button
               type="button"
               disabled={submitting}
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
+              className="flex-1 px-4 py-3 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+              className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-shadow shadow-lg shadow-blue-200 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {submitting && <Loader2 size={18} className="animate-spin" />}
-              {product ? 'Update' : 'Add'} Product
+              {product ? 'Update Product' : 'Add Product'}
             </button>
           </div>
         </form>

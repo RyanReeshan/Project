@@ -83,6 +83,8 @@ export async function createSale(data: {
   tax: number;
   discount: number;
   total: number;
+  tenderedAmount: number;
+  changeAmount: number;
   paymentMethod: string;
   customerId?: string;
 }) {
@@ -95,6 +97,9 @@ export async function createSale(data: {
           tax: data.tax,
           discount: data.discount,
           total: data.total,
+          tenderedAmount: data.tenderedAmount,
+          changeAmount: data.changeAmount,
+          status: 'COMPLETED',
           paymentMethod: data.paymentMethod,
           customerId: data.customerId,
           items: {
@@ -121,7 +126,7 @@ export async function createSale(data: {
 
       // 3. Update customer loyalty points if customerId provided
       if (data.customerId) {
-        const pointsEarned = Math.floor(data.total); // 1 point per $1
+        const pointsEarned = Math.floor(data.total); // 1 point per Rs. 1
         await tx.customer.update({
           where: { id: data.customerId },
           data: {
@@ -162,6 +167,61 @@ export async function getSales() {
   } catch (error) {
     console.error('Failed to fetch sales:', error);
     return [];
+  }
+}
+
+export async function refundSale(saleId: string) {
+  try {
+    const result = await prisma.$transaction(async (tx) => {
+      // 1. Get the sale details
+      const sale = await tx.sale.findUnique({
+        where: { id: saleId },
+        include: { items: true },
+      });
+
+      if (!sale) throw new Error('Sale not found');
+      if (sale.status === 'REFUNDED') throw new Error('Sale already refunded');
+
+      // 2. Update sale status
+      await tx.sale.update({
+        where: { id: saleId },
+        data: { status: 'REFUNDED' },
+      });
+
+      // 3. Restore stock
+      for (const item of sale.items) {
+        await tx.product.update({
+          where: { id: item.productId },
+          data: {
+            stock: {
+              increment: item.quantity,
+            },
+          },
+        });
+      }
+
+      // 4. Deduct loyalty points
+      if (sale.customerId) {
+        const pointsToDeduct = Math.floor(sale.total);
+        await tx.customer.update({
+          where: { id: sale.customerId },
+          data: {
+            loyaltyPoints: {
+              decrement: pointsToDeduct,
+            },
+          },
+        });
+      }
+
+      return { success: true };
+    });
+
+    revalidatePath('/reports');
+    revalidatePath('/inventory');
+    return result;
+  } catch (error: any) {
+    console.error('Failed to refund sale:', error);
+    return { success: false, error: error.message };
   }
 }
 

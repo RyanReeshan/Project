@@ -1,9 +1,7 @@
-export type Category = 'T-Shirts' | 'Jeans' | 'Dresses' | 'Jackets' | 'Accessories' | 'Shoes';
-
 export interface Product {
   id: string;
   name: string;
-  category: Category;
+  category: string;
   price: number;
   size: string;
   color: string;
@@ -11,28 +9,42 @@ export interface Product {
   sku: string;
   barcode: string;
   image?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface CartItem extends Product {
   quantity: number;
 }
 
+export interface Customer {
+  id: string;
+  name: string;
+  email?: string;
+  phone: string;
+  loyaltyPoints: number;
+}
+
 export interface Sale {
   id: string;
-  items: CartItem[];
+  timestamp: Date;
   subtotal: number;
   tax: number;
   discount: number;
   total: number;
-  timestamp: number;
+  tenderedAmount: number;
+  changeAmount: number;
+  status: string;
+  paymentMethod: string;
   customerId?: string;
-  paymentMethod: 'Cash' | 'Card' | 'Other';
+  customer?: Customer;
+  items: SaleItem[];
 }
 
-export interface Customer {
+export interface SaleItem {
   id: string;
-  name: string;
-  email: string;
-  phone: string;
-  loyaltyPoints: number;
+  productId: string;
+  quantity: number;
+  price: number;
+  product: Product;
 }
