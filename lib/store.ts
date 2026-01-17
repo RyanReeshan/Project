@@ -29,20 +29,15 @@ interface POSState {
   // Customer actions
   addCustomer: (customer: Customer) => void;
   updateCustomer: (customer: Customer) => void;
+  setProducts: (products: Product[]) => void;
+  setSales: (sales: Sale[]) => void;
+  setCustomers: (customers: Customer[]) => void;
 }
-
-const initialProducts: Product[] = [
-  { id: '1', name: 'Classic White T-Shirt', category: 'T-Shirts', price: 19.99, size: 'M', color: 'White', stock: 50, sku: 'TS-001', barcode: '1234567890123' },
-  { id: '2', name: 'Slim Fit Blue Jeans', category: 'Jeans', price: 49.99, size: '32', color: 'Blue', stock: 30, sku: 'JN-001', barcode: '1234567890124' },
-  { id: '3', name: 'Floral Summer Dress', category: 'Dresses', price: 34.99, size: 'S', color: 'Floral', stock: 20, sku: 'DR-001', barcode: '1234567890125' },
-  { id: '4', name: 'Leather Biker Jacket', category: 'Jackets', price: 89.99, size: 'L', color: 'Black', stock: 10, sku: 'JK-001', barcode: '1234567890126' },
-  { id: '5', name: 'Canvas Sneakers', category: 'Shoes', price: 29.99, size: '42', color: 'Grey', stock: 15, sku: 'SH-001', barcode: '1234567890127' },
-];
 
 export const useStore = create<POSState>()(
   persist(
     (set, get) => ({
-      products: initialProducts,
+      products: [],
       sales: [],
       customers: [],
       cart: [],
@@ -118,9 +113,16 @@ export const useStore = create<POSState>()(
       updateCustomer: (customer) => set((state) => ({
         customers: state.customers.map((c) => (c.id === customer.id ? customer : c)),
       })),
+      setProducts: (products) => set({ products }),
+      setSales: (sales) => set({ sales }),
+      setCustomers: (customers) => set({ customers }),
     }),
     {
       name: 'pos-storage',
+      partialize: (state) => ({
+        cart: state.cart,
+        currentDiscount: state.currentDiscount
+      }),
     }
   )
 );

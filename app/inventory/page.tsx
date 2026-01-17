@@ -1,16 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStore } from '@/lib/store';
-import { Plus, Search, Filter, Edit2, Trash2, MoreVertical } from 'lucide-react';
+import { Plus, Search, Filter, Edit2, Trash2, Loader2 } from 'lucide-react';
 import { Product, Category } from '@/lib/types';
+import { getProducts, addProduct, updateProduct, deleteProduct } from '@/lib/actions';
 
 export default function InventoryPage() {
-  const { products, deleteProduct, addProduct, updateProduct } = useStore();
+  const { products, setProducts } = useStore();
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  async function loadProducts() {
+    setLoading(true);
+    const data = await getProducts();
+    setProducts(data as any);
+    setLoading(false);
+  }
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -20,9 +33,14 @@ export default function InventoryPage() {
     return matchesSearch && matchesCategory;
   });
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this product?')) {
-      deleteProduct(id);
+      const result = await deleteProduct(id);
+      if (result.success) {
+        loadProducts();
+      } else {
+        alert('Failed to delete product');
+      }
     }
   };
 
@@ -41,7 +59,7 @@ export default function InventoryPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">Inventory Management</h1>
-          <p className="text-slate-500">Manage your clothing items and stock levels</p>
+          <p className="text-slate-500">Manage your clothing items and stock levels (Real Database)</p>
         </div>
         <button
           onClick={handleAdd}
@@ -85,66 +103,74 @@ export default function InventoryPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead className="bg-slate-50 text-slate-500 font-medium text-sm">
-              <tr>
-                <th className="p-4 border-b">Product Info</th>
-                <th className="p-4 border-b">Barcode</th>
-                <th className="p-4 border-b">Category</th>
-                <th className="p-4 border-b">Size/Color</th>
-                <th className="p-4 border-b">Price</th>
-                <th className="p-4 border-b">Stock</th>
-                <th className="p-4 border-b text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200">
-              {filteredProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="p-4">
-                    <div className="font-semibold text-slate-900">{product.name}</div>
-                    <div className="text-xs text-slate-500">{product.sku}</div>
-                  </td>
-                  <td className="p-4">
-                    <div className="text-xs font-mono bg-slate-100 px-2 py-1 rounded w-fit">{product.barcode}</div>
-                  </td>
-                  <td className="p-4 text-slate-600">{product.category}</td>
-                  <td className="p-4 text-slate-600">
-                    <span className="bg-slate-100 px-2 py-1 rounded text-xs">{product.size}</span>
-                    <span className="ml-2 text-xs">{product.color}</span>
-                  </td>
-                  <td className="p-4 font-medium text-slate-900">${product.price.toFixed(2)}</td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <div className={`h-2 w-2 rounded-full ${product.stock < 10 ? 'bg-red-500' : 'bg-green-500'}`} />
-                      <span className={product.stock < 10 ? 'text-red-600 font-medium' : 'text-slate-600'}>
-                        {product.stock} in stock
-                      </span>
-                    </div>
-                  </td>
-                  <td className="p-4 text-right">
-                    <div className="flex justify-end gap-2">
-                      <button
-                        onClick={() => handleEdit(product)}
-                        className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                      >
-                        <Edit2 size={18} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(product.id)}
-                        className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {filteredProducts.length === 0 && (
-            <div className="p-8 text-center text-slate-500">
-              No products found matching your criteria.
+          {loading ? (
+            <div className="p-12 flex justify-center items-center">
+              <Loader2 className="animate-spin text-blue-600" size={40} />
             </div>
+          ) : (
+            <>
+              <table className="w-full text-left border-collapse">
+                <thead className="bg-slate-50 text-slate-500 font-medium text-sm">
+                  <tr>
+                    <th className="p-4 border-b">Product Info</th>
+                    <th className="p-4 border-b">Barcode</th>
+                    <th className="p-4 border-b">Category</th>
+                    <th className="p-4 border-b">Size/Color</th>
+                    <th className="p-4 border-b">Price</th>
+                    <th className="p-4 border-b">Stock</th>
+                    <th className="p-4 border-b text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200">
+                  {filteredProducts.map((product) => (
+                    <tr key={product.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="p-4">
+                        <div className="font-semibold text-slate-900">{product.name}</div>
+                        <div className="text-xs text-slate-500">{product.sku}</div>
+                      </td>
+                      <td className="p-4">
+                        <div className="text-xs font-mono bg-slate-100 px-2 py-1 rounded w-fit">{product.barcode}</div>
+                      </td>
+                      <td className="p-4 text-slate-600">{product.category}</td>
+                      <td className="p-4 text-slate-600">
+                        <span className="bg-slate-100 px-2 py-1 rounded text-xs">{product.size}</span>
+                        <span className="ml-2 text-xs">{product.color}</span>
+                      </td>
+                      <td className="p-4 font-medium text-slate-900">${product.price.toFixed(2)}</td>
+                      <td className="p-4">
+                        <div className="flex items-center gap-2">
+                          <div className={`h-2 w-2 rounded-full ${product.stock < 10 ? 'bg-red-500' : 'bg-green-500'}`} />
+                          <span className={product.stock < 10 ? 'text-red-600 font-medium' : 'text-slate-600'}>
+                            {product.stock} in stock
+                          </span>
+                        </div>
+                      </td>
+                      <td className="p-4 text-right">
+                        <div className="flex justify-end gap-2">
+                          <button
+                            onClick={() => handleEdit(product)}
+                            className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          >
+                            <Edit2 size={18} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(product.id)}
+                            className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {filteredProducts.length === 0 && (
+                <div className="p-8 text-center text-slate-500">
+                  No products found matching your criteria.
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -152,7 +178,10 @@ export default function InventoryPage() {
       {isModalOpen && (
         <ProductModal
           product={editingProduct}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => {
+            setIsModalOpen(false);
+            loadProducts();
+          }}
         />
       )}
     </div>
@@ -160,7 +189,7 @@ export default function InventoryPage() {
 }
 
 function ProductModal({ product, onClose }: { product: Product | null, onClose: () => void }) {
-  const { addProduct, updateProduct } = useStore();
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState<Partial<Product>>(
     product || {
       name: '',
@@ -174,17 +203,21 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
     }
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+    let result;
     if (product) {
-      updateProduct({ ...product, ...formData } as Product);
+      result = await updateProduct(product.id, formData);
     } else {
-      addProduct({
-        ...formData,
-        id: Math.random().toString(36).substr(2, 9),
-      } as Product);
+      result = await addProduct(formData);
     }
-    onClose();
+    setSubmitting(false);
+    if (result.success) {
+      onClose();
+    } else {
+      alert(result.error || 'Something went wrong');
+    }
   };
 
   return (
@@ -253,7 +286,7 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Initial Stock</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Stock Level</label>
               <input
                 type="number"
                 required
@@ -286,15 +319,18 @@ function ProductModal({ product, onClose }: { product: Product | null, onClose: 
           <div className="pt-4 flex gap-3">
             <button
               type="button"
+              disabled={submitting}
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+              className="flex-1 px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              disabled={submitting}
+              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
             >
+              {submitting && <Loader2 size={18} className="animate-spin" />}
               {product ? 'Update' : 'Add'} Product
             </button>
           </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useStore } from '@/lib/store';
 import {
   TrendingUp,
@@ -7,13 +8,32 @@ import {
   Package,
   DollarSign,
   ArrowUpRight,
-  ArrowDownRight,
-  ShoppingBag
+  ShoppingBag,
+  Loader2
 } from 'lucide-react';
 import { format } from 'date-fns';
+import { getProducts, getSales, getCustomers } from '@/lib/actions';
 
 export default function Dashboard() {
-  const { sales, products, customers } = useStore();
+  const { sales, products, customers, setSales, setProducts, setCustomers } = useStore();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadDashboardData();
+  }, []);
+
+  async function loadDashboardData() {
+    setLoading(true);
+    const [salesData, productsData, customersData] = await Promise.all([
+      getSales(),
+      getProducts(),
+      getCustomers()
+    ]);
+    setSales(salesData as any);
+    setProducts(productsData as any);
+    setCustomers(customersData as any);
+    setLoading(false);
+  }
 
   const totalRevenue = sales.reduce((sum, sale) => sum + sale.total, 0);
   const totalSales = sales.length;
@@ -29,11 +49,19 @@ export default function Dashboard() {
     { label: 'Low Stock Alert', value: lowStockItems, icon: Package, color: 'text-red-600', bg: 'bg-red-100' },
   ];
 
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center p-8">
+        <Loader2 className="animate-spin text-blue-600" size={40} />
+      </div>
+    );
+  }
+
   return (
     <div className="p-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-500">Welcome back! Here's what's happening today.</p>
+        <p className="text-slate-500">Welcome back! Here's what's happening today (Real Database).</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -74,9 +102,9 @@ export default function Dashboard() {
               <tbody className="divide-y divide-slate-100">
                 {recentSales.map((sale) => (
                   <tr key={sale.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="p-4 text-sm font-semibold text-slate-900">#{sale.id}</td>
-                    <td className="p-4 text-sm text-slate-500">{format(sale.timestamp, 'MMM dd, HH:mm')}</td>
-                    <td className="p-4 text-sm text-slate-500">{sale.items.length} items</td>
+                    <td className="p-4 text-sm font-semibold text-slate-900 truncate max-w-[100px]">#{sale.id}</td>
+                    <td className="p-4 text-sm text-slate-500">{format(new Date(sale.timestamp), 'MMM dd, HH:mm')}</td>
+                    <td className="p-4 text-sm text-slate-500">{(sale as any).items?.length || 0} items</td>
                     <td className="p-4 text-sm font-bold text-slate-900">${sale.total.toFixed(2)}</td>
                     <td className="p-4">
                       <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
