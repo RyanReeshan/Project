@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Apeksha Travels & Tours</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            darkblue: '#0F4C81',
+                            blue: '#0070c0',
+                            lightblue: '#00b0f0',
+                            orange: '#ff6600',
+                            gold: '#ffc000',
+                            dark: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Top Contact Bar -->
+    <div class="bg-brand-darkblue text-white py-2 px-4 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex flex-wrap justify-center sm:justify-start items-center gap-4">
+                <a href="tel:+94771083312" class="hover:text-brand-lightblue transition-colors flex items-center gap-1">
+                    <i class="fas fa-phone-alt text-brand-gold"></i> +94 77 108 3312
+                </a>
+                <a href="mailto:apeksha.roshan@gmail.com" class="hover:text-brand-lightblue transition-colors flex items-center gap-1">
+                    <i class="fas fa-envelope text-brand-gold"></i> apeksha.roshan@gmail.com
+                </a>
+                <span class="flex items-center gap-1 text-slate-300">
+                    <i class="fas fa-map-marker-alt text-brand-gold"></i> Rathgama, Sri Lanka
+                </span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-slate-300 text-xs hidden md:inline">24/7 Tourist Support Service</span>
+                <div class="flex gap-2">
+                    <a href="https://wa.me/94771083312" target="_blank" class="text-green-400 hover:text-green-300 transition-colors">
+                        <i class="fab fa-whatsapp text-base"></i>
+                    </a>
+                    <a href="#" class="hover:text-brand-lightblue transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-brand-lightblue transition-colors"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <!-- Logo Section -->
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="relative flex items-center justify-center bg-gradient-to-br from-brand-blue to-brand-lightblue p-2 rounded-lg text-white font-bold text-xl shadow-md w-12 h-12">
+                    <span class="text-2xl">A</span>
+                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-brand-orange rounded-full border-2 border-white"></div>
+                </div>
+                <div>
+                    <span class="text-xl sm:text-2xl font-extrabold text-brand-darkblue tracking-tight block">APEKSHA</span>
+                    <span class="text-xs font-semibold text-brand-orange uppercase tracking-widest block -mt-1">Travels & Tours</span>
+                </div>
+            </a>
+
+            <!-- Desktop Links -->
+            <ul class="hidden lg:flex items-center gap-8 font-medium text-slate-700">
+                <li><a href="index.html" class="hover:text-brand-blue transition-colors pb-1">Home</a></li>
+                <li><a href="about.html" class="hover:text-brand-blue transition-colors pb-1">About Us</a></li>
+                <li><a href="vehicles.html" class="hover:text-brand-blue transition-colors pb-1">Vehicle Packages</a></li>
+                <li><a href="contact.html" class="text-brand-blue border-b-2 border-brand-blue pb-1 transition-all">Contact Us</a></li>
+                <li>
+                    <a href="inquiry.html" class="bg-gradient-to-r from-brand-orange to-red-500 hover:from-brand-blue hover:to-brand-darkblue text-white px-5 py-2.5 rounded-full font-semibold shadow-md transition-all duration-300 flex items-center gap-2">
+                        <i class="fas fa-paper-plane"></i> Make Inquiry
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-toggle" class="lg:hidden text-brand-darkblue focus:outline-none p-2 rounded-md hover:bg-slate-100 transition-colors">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-inner px-4 py-4 space-y-3">
+            <a href="index.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">Home</a>
+            <a href="about.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">About Us</a>
+            <a href="vehicles.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">Vehicle Packages</a>
+            <a href="contact.html" class="block px-4 py-2 rounded-lg bg-brand-blue/10 text-brand-blue font-semibold">Contact Us</a>
+            <a href="inquiry.html" class="block text-center bg-gradient-to-r from-brand-orange to-red-500 text-white py-2.5 rounded-lg font-semibold shadow-md transition-all">
+                <i class="fas fa-paper-plane mr-1"></i> Make Inquiry
+            </a>
+        </div>
+    </header>
+
+    <!-- Subpage Hero Header -->
+    <section class="bg-gradient-to-r from-brand-darkblue to-brand-blue text-white py-12 px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('assets/images/kdh-van.jpg')] bg-cover bg-center mix-blend-multiply opacity-20"></div>
+        <div class="max-w-7xl mx-auto text-center space-y-3 relative z-10">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black">Contact Our Helpline</h1>
+            <p class="text-slate-200 text-sm sm:text-base max-w-xl mx-auto">Get in touch directly with our dispatch department. We are available 24 hours a day, 7 days a week.</p>
+            <div class="flex justify-center items-center gap-2 text-xs text-brand-gold font-bold">
+                <a href="index.html" class="hover:underline">Home</a>
+                <i class="fas fa-chevron-right text-[10px]"></i>
+                <span class="text-white">Contact Us</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Contact Grid -->
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+            <!-- Left Column: Contact Cards -->
+            <div class="lg:col-span-5 space-y-8">
+                <div class="space-y-4">
+                    <span class="text-brand-orange font-bold text-sm tracking-widest uppercase block">Our Channels</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-darkblue">Direct Communications</h2>
+                    <div class="w-16 h-1 bg-brand-orange rounded-full"></div>
+                    <p class="text-slate-600 text-sm">
+                        Use any of our validated contact endpoints displayed on our official corporate business card. Apeksha Chathuranga or a direct operator will respond promptly.
+                    </p>
+                </div>
+
+                <!-- Contact Points Cards -->
+                <div class="space-y-4">
+
+                    <!-- Call Helpline Card -->
+                    <div class="bg-white p-5 rounded-2xl shadow-md border border-slate-200/60 flex items-start gap-4">
+                        <div class="w-12 h-12 bg-brand-blue/10 text-brand-blue rounded-xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider block">Phone & SMS Helpline</span>
+                            <a href="tel:+94771083312" class="text-slate-800 font-extrabold text-base sm:text-lg hover:text-brand-blue transition-colors block">
+                                077 108 33 12
+                            </a>
+                            <span class="text-slate-500 text-xs">Direct dial inside Sri Lanka. International: +94 77 108 3312</span>
+                        </div>
+                    </div>
+
+                    <!-- Direct WhatsApp Card -->
+                    <div class="bg-white p-5 rounded-2xl shadow-md border border-slate-200/60 flex items-start gap-4">
+                        <div class="w-12 h-12 bg-emerald-500/10 text-emerald-600 rounded-xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider block">WhatsApp Operator</span>
+                            <a href="https://wa.me/94771083312" target="_blank" class="text-slate-800 font-extrabold text-base sm:text-lg hover:text-green-500 transition-colors block">
+                                Message +94 77 108 3312
+                            </a>
+                            <span class="text-slate-500 text-xs">Recommended for quick route pricing, photo requests, and instant booking.</span>
+                        </div>
+                    </div>
+
+                    <!-- Direct Email Card -->
+                    <div class="bg-white p-5 rounded-2xl shadow-md border border-slate-200/60 flex items-start gap-4">
+                        <div class="w-12 h-12 bg-brand-blue/10 text-brand-blue rounded-xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider block">E-Mail Address</span>
+                            <a href="mailto:apeksha.roshan@gmail.com" class="text-slate-800 font-extrabold text-base sm:text-lg hover:text-brand-blue transition-colors block break-all">
+                                apeksha.roshan@gmail.com
+                            </a>
+                            <span class="text-slate-500 text-xs">For multi-page itineraries, agency collaborations, or receipt requests.</span>
+                        </div>
+                    </div>
+
+                    <!-- Registered Head Office Card -->
+                    <div class="bg-white p-5 rounded-2xl shadow-md border border-slate-200/60 flex items-start gap-4">
+                        <div class="w-12 h-12 bg-brand-orange/10 text-brand-orange rounded-xl flex items-center justify-center text-xl shrink-0">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-xs text-slate-400 font-bold uppercase tracking-wider block">Registered Head Office</span>
+                            <h4 class="text-slate-800 font-extrabold text-base">
+                                Anhandigoda Rd, Rathgama
+                            </h4>
+                            <span class="text-slate-500 text-xs block">Galle District, Southern Province, Sri Lanka.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Form and Mock Location Map -->
+            <div class="lg:col-span-7 space-y-8">
+                <!-- Message Box form container -->
+                <div class="bg-white p-6 sm:p-10 rounded-3xl shadow-xl border border-slate-200/80">
+                    <h3 class="font-black text-xl sm:text-2xl text-brand-darkblue mb-2">Send a Message Online</h3>
+                    <p class="text-slate-500 text-xs sm:text-sm mb-6">Our standard ticket response delay is under 15 minutes during business hours.</p>
+
+                    <form id="contact-form" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold text-slate-600 block">Your Full Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="fullname" placeholder="John Doe" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-brand-blue focus:outline-none transition-all">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold text-slate-600 block">Your E-Mail <span class="text-red-500">*</span></label>
+                                <input type="email" id="email" placeholder="john@example.com" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-brand-blue focus:outline-none transition-all">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-slate-600 block">WhatsApp or Phone Number <span class="text-red-500">*</span></label>
+                            <input type="text" id="phonenumber" placeholder="+1 234 567 8900" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-brand-blue focus:outline-none transition-all">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-slate-600 block">Custom Message / Requirements <span class="text-red-500">*</span></label>
+                            <textarea id="message" rows="5" placeholder="Tell us about your holiday plans, target dates, or specific questions..." required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-brand-blue focus:outline-none transition-all"></textarea>
+                        </div>
+
+                        <div class="pt-2 flex flex-col sm:flex-row gap-4">
+                            <button type="submit" class="bg-gradient-to-r from-brand-orange to-red-500 hover:from-brand-blue hover:to-brand-darkblue text-white font-bold px-8 py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all text-center flex-1">
+                                <i class="fas fa-paper-plane mr-1"></i> Send Online Message
+                            </button>
+                            <a id="wa-quick" href="#" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl shadow-md hover:shadow-lg transition-all text-center flex items-center justify-center gap-2">
+                                <i class="fab fa-whatsapp"></i> WhatsApp Quick Chat
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Interactive mockup for Rathgama Location -->
+                <div class="bg-white p-4 rounded-3xl shadow-xl border border-slate-200/80 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-blue/10 text-brand-blue rounded-xl flex items-center justify-center text-lg shrink-0">
+                            <i class="fas fa-compass"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-extrabold text-slate-800 text-sm">Southern Province Gateway Location</h4>
+                            <p class="text-slate-500 text-xs">Apeksha Travels Head Office, Rathgama, Galle, Sri Lanka</p>
+                        </div>
+                    </div>
+
+                    <!-- Clean Mock Map Interface -->
+                    <div class="relative bg-slate-100 rounded-2xl border border-slate-200 h-64 overflow-hidden flex items-center justify-center group">
+                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center opacity-30 group-hover:scale-105 transition-transform duration-500"></div>
+                        <div class="absolute inset-0 bg-slate-900/10"></div>
+
+                        <!-- Map Pin Element -->
+                        <div class="relative z-10 text-center space-y-2 animate-bounce">
+                            <div class="inline-flex w-12 h-12 bg-red-500 text-white rounded-full items-center justify-center shadow-lg border-2 border-white text-xl">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <span class="block bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded-lg shadow-md uppercase tracking-wider">
+                                Apeksha Head Office
+                            </span>
+                        </div>
+
+                        <!-- Open in Google Maps button -->
+                        <a href="https://maps.google.com/?q=Rathgama,+Galle,+Sri+Lanka" target="_blank" class="absolute bottom-4 right-4 bg-slate-900/95 backdrop-blur text-white text-xs font-bold py-2 px-3 rounded-lg border border-white/10 hover:bg-slate-800 shadow-md flex items-center gap-1.5 transition-colors">
+                            <i class="fas fa-external-link-alt text-brand-gold"></i> Open in Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive script to handle contact submission & direct WhatsApp helper -->
+    <script>
+        const contactForm = document.getElementById('contact-form');
+        const waQuickBtn = document.getElementById('wa-quick');
+
+        // Form Submission handler
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phonenumber').value;
+            const message = document.getElementById('message').value;
+
+            // Generate deep link to email standard mailto
+            const subject = encodeURIComponent(`Inquiry from ${name} via Contact Page`);
+            const body = encodeURIComponent(
+                `Full Name: ${name}\nEmail Address: ${email}\nPhone/WhatsApp: ${phone}\n\nCustom Message:\n${message}`
+            );
+
+            alert("Perfect! We have formatted your message. Redirecting to your default email client to finalize sending...");
+            window.location.href = `mailto:apeksha.roshan@gmail.com?subject=${subject}&body=${body}`;
+        });
+
+        // WhatsApp quick chat helper
+        waQuickBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('fullname').value || "Guest";
+            const phone = document.getElementById('phonenumber').value || "";
+            const message = document.getElementById('message').value || "I'd like to get in touch with you.";
+
+            let text = `Hello Apeksha Travels! My name is ${name}. `;
+            if(phone) text += `My contact is ${phone}. `;
+            text += `Message: ${message}`;
+
+            window.open(`https://wa.me/94771083312?text=${encodeURIComponent(text)}`, '_blank');
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-slate-300 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <!-- Col 1: About Business -->
+            <div class="space-y-4">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="flex items-center justify-center bg-gradient-to-br from-brand-blue to-brand-lightblue p-1.5 rounded-lg text-white font-bold text-lg w-10 h-10 shadow-md">
+                        <span>A</span>
+                    </div>
+                    <div>
+                        <span class="text-lg font-black text-white tracking-tight block">APEKSHA</span>
+                        <span class="text-[10px] font-semibold text-brand-orange uppercase tracking-widest block -mt-1">Travels & Tours</span>
+                    </div>
+                </a>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    Apeksha Travels & Tours is your dedicated partner for luxury transport and specialized private tour packages in Sri Lanka, based out of gorgeous Rathgama.
+                </p>
+                <div class="flex gap-3 pt-2">
+                    <a href="https://wa.me/94771083312" target="_blank" class="w-9 h-9 bg-slate-800 hover:bg-green-500 hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 bg-slate-800 hover:bg-brand-blue hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 bg-slate-800 hover:bg-brand-orange hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Col 2: Quick Links -->
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4 pb-2 border-b border-slate-800 inline-block">Quick Links</h4>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="index.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Home</a></li>
+                    <li><a href="about.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> About Us</a></li>
+                    <li><a href="vehicles.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Vehicle Packages</a></li>
+                    <li><a href="contact.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Contact Us</a></li>
+                    <li><a href="inquiry.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Make Inquiry</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Contact Info -->
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4 pb-2 border-b border-slate-800 inline-block">Get In Touch</h4>
+                <ul class="space-y-3.5 text-sm">
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-phone-alt text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Call / SMS</span>
+                            <a href="tel:+94771083312" class="hover:text-white transition-colors font-semibold text-slate-300">+94 77 108 3312</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fab fa-whatsapp text-green-400 mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">WhatsApp Chat</span>
+                            <a href="https://wa.me/94771083312" target="_blank" class="hover:text-white transition-colors font-semibold text-slate-300">+94 77 108 3312</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-envelope text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Email Address</span>
+                            <a href="mailto:apeksha.roshan@gmail.com" class="hover:text-white transition-colors font-semibold text-slate-300">apeksha.roshan@gmail.com</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-map-marker-alt text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Head Office</span>
+                            <span class="text-slate-300">Anhandigoda Rd, Rathgama, Sri Lanka</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Service Hours -->
+            <div class="space-y-4">
+                <h4 class="text-white font-bold text-lg mb-2 pb-2 border-b border-slate-800 inline-block">Service Coverage</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    We offer round-the-clock airport transfers and all-island tour services. Our drivers are ready to travel to any corner of Sri Lanka at your convenient time.
+                </p>
+                <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+                    <i class="fas fa-clock text-brand-gold text-2xl"></i>
+                    <div>
+                        <span class="block text-xs font-semibold text-white uppercase">Operating Hours</span>
+                        <span class="block text-xs text-emerald-400 font-semibold">24 Hours / 7 Days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800/60 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+            <p>&copy; 2026 Apeksha Travels & Tours. All Rights Reserved. Co-designed by SterlinX.</p>
+            <div class="flex gap-4">
+                <a href="about.html" class="hover:text-slate-400 transition-colors">About Us</a>
+                <a href="contact.html" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
+                <a href="inquiry.html" class="hover:text-slate-400 transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Floating WhatsApp Button -->
+    <a href="https://wa.me/94771083312?text=Hello!%20I'd%20like%20to%20get%20a%20quote%20for%20a%20KDH%20van%20package." target="_blank" class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 z-50 group">
+        <i class="fab fa-whatsapp text-3xl"></i>
+        <span class="absolute right-16 bg-slate-900 text-white text-xs font-bold py-1.5 px-3 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            Chat with us
+        </span>
+    </a>
+
+    <!-- Hamburger Menu Script -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuToggle.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.className = 'fas fa-bars text-2xl';
+            } else {
+                icon.className = 'fas fa-times text-2xl';
+            }
+        });
+    </script>
+</body>
+</html>

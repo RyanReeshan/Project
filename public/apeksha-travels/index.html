@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apeksha Travels & Tours | Premium Sri Lanka Tour & Van Packages</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            darkblue: '#0F4C81',
+                            blue: '#0070c0',
+                            lightblue: '#00b0f0',
+                            orange: '#ff6600',
+                            gold: '#ffc000',
+                            dark: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Top Contact Bar -->
+    <div class="bg-brand-darkblue text-white py-2 px-4 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex flex-wrap justify-center sm:justify-start items-center gap-4">
+                <a href="tel:+94771083312" class="hover:text-brand-lightblue transition-colors flex items-center gap-1">
+                    <i class="fas fa-phone-alt text-brand-gold"></i> +94 77 108 3312
+                </a>
+                <a href="mailto:apeksha.roshan@gmail.com" class="hover:text-brand-lightblue transition-colors flex items-center gap-1">
+                    <i class="fas fa-envelope text-brand-gold"></i> apeksha.roshan@gmail.com
+                </a>
+                <span class="flex items-center gap-1 text-slate-300">
+                    <i class="fas fa-map-marker-alt text-brand-gold"></i> Rathgama, Sri Lanka
+                </span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-slate-300 text-xs hidden md:inline">24/7 Tourist Support Service</span>
+                <div class="flex gap-2">
+                    <a href="https://wa.me/94771083312" target="_blank" class="text-green-400 hover:text-green-300 transition-colors">
+                        <i class="fab fa-whatsapp text-base"></i>
+                    </a>
+                    <a href="#" class="hover:text-brand-lightblue transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-brand-lightblue transition-colors"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <!-- Logo Section -->
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="relative flex items-center justify-center bg-gradient-to-br from-brand-blue to-brand-lightblue p-2 rounded-lg text-white font-bold text-xl shadow-md w-12 h-12">
+                    <span class="text-2xl">A</span>
+                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-brand-orange rounded-full border-2 border-white"></div>
+                </div>
+                <div>
+                    <span class="text-xl sm:text-2xl font-extrabold text-brand-darkblue tracking-tight block">APEKSHA</span>
+                    <span class="text-xs font-semibold text-brand-orange uppercase tracking-widest block -mt-1">Travels & Tours</span>
+                </div>
+            </a>
+
+            <!-- Desktop Links -->
+            <ul class="hidden lg:flex items-center gap-8 font-medium text-slate-700">
+                <li><a href="index.html" class="text-brand-blue border-b-2 border-brand-blue pb-1 transition-all">Home</a></li>
+                <li><a href="about.html" class="hover:text-brand-blue transition-colors pb-1">About Us</a></li>
+                <li><a href="vehicles.html" class="hover:text-brand-blue transition-colors pb-1">Vehicle Packages</a></li>
+                <li><a href="contact.html" class="hover:text-brand-blue transition-colors pb-1">Contact Us</a></li>
+                <li>
+                    <a href="inquiry.html" class="bg-gradient-to-r from-brand-orange to-red-500 hover:from-brand-blue hover:to-brand-darkblue text-white px-5 py-2.5 rounded-full font-semibold shadow-md transition-all duration-300 flex items-center gap-2">
+                        <i class="fas fa-paper-plane"></i> Make Inquiry
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-toggle" class="lg:hidden text-brand-darkblue focus:outline-none p-2 rounded-md hover:bg-slate-100 transition-colors">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-inner px-4 py-4 space-y-3">
+            <a href="index.html" class="block px-4 py-2 rounded-lg bg-brand-blue/10 text-brand-blue font-semibold">Home</a>
+            <a href="about.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">About Us</a>
+            <a href="vehicles.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">Vehicle Packages</a>
+            <a href="contact.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">Contact Us</a>
+            <a href="inquiry.html" class="block text-center bg-gradient-to-r from-brand-orange to-red-500 text-white py-2.5 rounded-lg font-semibold shadow-md transition-all">
+                <i class="fas fa-paper-plane mr-1"></i> Make Inquiry
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-r from-slate-900 to-brand-darkblue text-white py-20 lg:py-32 overflow-hidden">
+        <!-- Background Overlay / Patterns -->
+        <div class="absolute inset-0 opacity-40 bg-[url('assets/images/kdh-van.jpg')] bg-cover bg-center mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12">
+            <!-- Left Content -->
+            <div class="flex-1 text-center lg:text-left space-y-6">
+                <div class="inline-flex items-center gap-2 bg-brand-orange/20 border border-brand-orange/30 px-4 py-1.5 rounded-full text-brand-orange text-sm font-semibold tracking-wide">
+                    <i class="fas fa-umbrella-beach"></i> Welcome to Beautiful Sri Lanka
+                </div>
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight">
+                    Explore Sri Lanka in <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-lightblue via-brand-gold to-brand-orange">Ultimate Luxury & Comfort</span>
+                </h1>
+                <p class="text-slate-200 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0">
+                    Experience seamless airport transfers, customized multi-day tours, and unforgettable island adventures in our premium, fully air-conditioned Toyota HiAce KDH High Roof Vans.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
+                    <a href="vehicles.html" class="bg-gradient-to-r from-brand-blue to-brand-lightblue hover:from-brand-orange hover:to-red-500 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-car-side"></i> View Vehicle Packages
+                    </a>
+                    <a href="inquiry.html" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-8 py-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                        <i class="fab fa-whatsapp text-green-400"></i> Fast WhatsApp Inquiry
+                    </a>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 max-w-md mx-auto lg:mx-0">
+                    <div class="text-center lg:text-left">
+                        <span class="block text-2xl sm:text-3xl font-bold text-brand-gold">100%</span>
+                        <span class="text-xs text-slate-300">Satisfied Clients</span>
+                    </div>
+                    <div class="text-center lg:text-left">
+                        <span class="block text-2xl sm:text-3xl font-bold text-brand-gold">24/7</span>
+                        <span class="text-xs text-slate-300">Customer Support</span>
+                    </div>
+                    <div class="text-center lg:text-left">
+                        <span class="block text-2xl sm:text-3xl font-bold text-brand-gold">Luxury</span>
+                        <span class="text-xs text-slate-300">KDH High Roofs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Featured Image/Card -->
+            <div class="flex-1 w-full max-w-md lg:max-w-none">
+                <div class="relative bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-2xl overflow-hidden group">
+                    <img src="assets/images/kdh-van.jpg" alt="Toyota HiAce KDH High Roof Van" class="rounded-xl object-cover w-full h-64 sm:h-80 shadow-md group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-6 right-6 bg-brand-orange text-white px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase shadow-md animate-pulse">
+                        Our Star Vehicle
+                    </div>
+                    <div class="mt-4 p-2 bg-slate-950/40 rounded-xl border border-white/5">
+                        <h4 class="font-bold text-lg text-brand-gold flex items-center gap-2">
+                            <i class="fas fa-star text-yellow-400"></i> Toyota HiAce KDH High Roof
+                        </h4>
+                        <p class="text-slate-300 text-xs sm:text-sm mt-1">
+                            Dual A/C, luxury adjustable reclining seats, high roof safety, crystal-clear audio system, and spacious luggage room. Perfect for groups, families, and solo travellers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wave divider -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+            <svg class="relative block w-full h-[30px] text-slate-50 fill-current" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C26.9,8.75,55.05,16.35,83.1,22.38,158,38.56,236.43,67.22,321.39,56.44Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Services Overview -->
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-brand-orange font-bold text-sm tracking-widest uppercase block mb-2">Our Offerings</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-darkblue">Comprehensive Travel Services</h2>
+            <div class="w-16 h-1 bg-brand-orange mx-auto mt-3 rounded-full"></div>
+            <p class="text-slate-600 mt-4 text-base sm:text-lg">
+                We organize complete tour solutions with the finest passenger vans in Sri Lanka, ensuring you travel smoothly and safely across any terrain.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Airport Transfer -->
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-brand-blue hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue text-2xl mb-5">
+                    <i class="fas fa-plane-arrival"></i>
+                </div>
+                <h3 class="font-bold text-xl text-slate-800 mb-2">Airport Pickup & Drop</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Reliable 24/7 transfers to and from Bandaranaike International Airport (CMB). Our driver will wait with a name placard for a stress-free start.
+                </p>
+            </div>
+
+            <!-- Custom Day Tours -->
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-brand-orange hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 bg-brand-orange/10 rounded-full flex items-center justify-center text-brand-orange text-2xl mb-5">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3 class="font-bold text-xl text-slate-800 mb-2">Tailored Day Tours</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Custom short excursions to nearby top destinations: historic Galle Fort, sunny Hikkaduwa beach, whale watching in Mirissa, or Bentota water sports.
+                </p>
+            </div>
+
+            <!-- Multi-Day Island Tours -->
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-brand-blue hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue text-2xl mb-5">
+                    <i class="fas fa-route"></i>
+                </div>
+                <h3 class="font-bold text-xl text-slate-800 mb-2">Multi-Day Round Tours</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Discover Sigiriya, Kandy, Nuwara Eliya, Ella, and Yala National Park. We map the ultimate itinerary optimized for your timeline and interests.
+                </p>
+            </div>
+
+            <!-- Weddings & Corporate Events -->
+            <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-brand-orange hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div class="w-14 h-14 bg-brand-orange/10 rounded-full flex items-center justify-center text-brand-orange text-2xl mb-5">
+                    <i class="fas fa-glass-cheers"></i>
+                </div>
+                <h3 class="font-bold text-xl text-slate-800 mb-2">Events & VIP Transport</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Elegant and roomy high roof transport for weddings, family functions, pilgrim journeys, and corporate executive retreats with premium luxury.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us / Value Proposition -->
+    <section class="bg-slate-100 py-16 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+            <!-- Left Side Features list -->
+            <div class="flex-1 space-y-6">
+                <span class="text-brand-orange font-bold text-sm tracking-widest uppercase block">Why Choose Apeksha</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-darkblue leading-tight">
+                    Your Safety and Comfort is Our Top Priority
+                </h2>
+                <p class="text-slate-600">
+                    With years of experience guiding tourists around the beautiful landscapes of Sri Lanka, we have curated a transportation and service standard that is second to none. Here's what makes us the ideal choice for your holiday:
+                </p>
+
+                <div class="space-y-4">
+                    <!-- Feature 1 -->
+                    <div class="flex items-start gap-4">
+                        <div class="bg-brand-blue text-white p-2.5 rounded-xl shadow-md mt-1">
+                            <i class="fas fa-shield-alt text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-slate-800">Licensed & Insured Fleet</h4>
+                            <p class="text-slate-600 text-sm">All our Toyota HiAce KDH vans are fully licensed, strictly inspected, and hold comprehensive passenger cover insurance.</p>
+                        </div>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="flex items-start gap-4">
+                        <div class="bg-brand-orange text-white p-2.5 rounded-xl shadow-md mt-1">
+                            <i class="fas fa-id-card text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-slate-800">Professional Driver-Guides</h4>
+                            <p class="text-slate-600 text-sm">Courteous, English-speaking drivers who know the safest routes, historical landmarks, and hidden gems across Sri Lanka.</p>
+                        </div>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="flex items-start gap-4">
+                        <div class="bg-brand-blue text-white p-2.5 rounded-xl shadow-md mt-1">
+                            <i class="fas fa-headset text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-slate-800">24/7 Dispatch & Support</h4>
+                            <p class="text-slate-600 text-sm">Whether your flight lands at midnight or you have a last-minute schedule change, our team is always awake and responsive.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right side Highlight Card -->
+            <div class="flex-1 w-full bg-white p-8 rounded-3xl shadow-xl border border-slate-200/60 relative">
+                <div class="absolute -top-5 -right-5 w-24 h-24 bg-brand-orange/10 rounded-full blur-xl"></div>
+                <div class="absolute -bottom-5 -left-5 w-32 h-32 bg-brand-blue/10 rounded-full blur-2xl"></div>
+
+                <h3 class="font-black text-2xl text-brand-darkblue mb-6 border-b border-slate-100 pb-4">
+                    The Ultimate KDH Advantage
+                </h3>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-xl hover:bg-brand-blue/5 transition-colors">
+                        <i class="fas fa-snowflake text-brand-blue text-2xl mb-2"></i>
+                        <h5 class="font-bold text-slate-800 text-sm">Dual Air Conditioning</h5>
+                        <p class="text-slate-500 text-xs mt-1">Stay cool even in the warmest tropical heat.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl hover:bg-brand-blue/5 transition-colors">
+                        <i class="fas fa-chair text-brand-blue text-2xl mb-2"></i>
+                        <h5 class="font-bold text-slate-800 text-sm">Adjustable Seats</h5>
+                        <p class="text-slate-500 text-xs mt-1">Reclining seats designed for long, relaxing trips.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl hover:bg-brand-blue/5 transition-colors">
+                        <i class="fas fa-suitcase text-brand-blue text-2xl mb-2"></i>
+                        <h5 class="font-bold text-slate-800 text-sm">Huge Luggage Space</h5>
+                        <p class="text-slate-500 text-xs mt-1">Separate rear trunk easily accommodates all baggage.</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl hover:bg-brand-blue/5 transition-colors">
+                        <i class="fas fa-music text-brand-blue text-2xl mb-2"></i>
+                        <h5 class="font-bold text-slate-800 text-sm">AV Entertainment</h5>
+                        <p class="text-slate-500 text-xs mt-1">Bluetooth/AUX audio system for your travel tunes.</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-brand-orange/10 rounded-2xl border border-brand-orange/20 flex items-center justify-between">
+                    <div>
+                        <span class="block text-brand-orange text-xs uppercase font-extrabold tracking-wider">Unbeatable Rates</span>
+                        <span class="text-slate-800 text-sm font-semibold">Custom quotes in minutes!</span>
+                    </div>
+                    <a href="inquiry.html" class="bg-brand-orange hover:bg-brand-orange/90 text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow transition-colors">
+                        Get Pricing <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Destinations Banner -->
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-brand-orange font-bold text-sm tracking-widest uppercase block mb-2">Explore the Paradise</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-darkblue">Top Destinations We Cover</h2>
+            <div class="w-16 h-1 bg-brand-orange mx-auto mt-3 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dest 1 -->
+            <div class="relative rounded-2xl overflow-hidden shadow-lg group h-80">
+                <img src="https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&q=80&w=600" alt="Galle Fort Sri Lanka" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent"></div>
+                <div class="absolute bottom-0 p-6 space-y-2">
+                    <span class="bg-brand-orange text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Coast & History</span>
+                    <h4 class="text-white font-extrabold text-2xl">Galle Fort & Hikkaduwa</h4>
+                    <p class="text-slate-300 text-xs">Only 15 minutes away from our head office in Rathgama. Historic architecture, coral reefs, and pristine beaches.</p>
+                </div>
+            </div>
+            <!-- Dest 2 -->
+            <div class="relative rounded-2xl overflow-hidden shadow-lg group h-80">
+                <img src="https://images.unsplash.com/photo-1588598126713-176864119d80?auto=format&fit=crop&q=80&w=600" alt="Ella Nine Arch Bridge" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent"></div>
+                <div class="absolute bottom-0 p-6 space-y-2">
+                    <span class="bg-brand-blue text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Hill Country</span>
+                    <h4 class="text-white font-extrabold text-2xl">Ella & Nuwara Eliya</h4>
+                    <p class="text-slate-300 text-xs">Misty hills, epic waterfalls, lush tea plantations, and the world-famous scenic train journey.</p>
+                </div>
+            </div>
+            <!-- Dest 3 -->
+            <div class="relative rounded-2xl overflow-hidden shadow-lg group h-80">
+                <img src="https://images.unsplash.com/photo-1563198048-936665c07b0c?auto=format&fit=crop&q=80&w=600" alt="Sigiriya Rock Fortress" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent"></div>
+                <div class="absolute bottom-0 p-6 space-y-2">
+                    <span class="bg-brand-orange text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Ancient Heritage</span>
+                    <h4 class="text-white font-extrabold text-2xl">Sigiriya & Kandy</h4>
+                    <p class="text-slate-300 text-xs">The sacred Temple of the Tooth Relic, ancient rock fortresses, and breathtaking historical landmarks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="bg-brand-darkblue text-white py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-orange font-bold text-sm tracking-widest uppercase block mb-2">Guest Experiences</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold">What Our Travelers Say</h2>
+                <div class="w-16 h-1 bg-brand-orange mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl relative">
+                    <i class="fas fa-quote-left text-brand-orange text-3xl absolute -top-4 left-6 opacity-30"></i>
+                    <div class="flex text-brand-gold gap-1 mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-200 text-sm italic mb-6 leading-relaxed">
+                        "We booked Apeksha for a 7-day tour from Colombo through Kandy, Ella and Galle. The KDH van was exceptionally clean and comfortable. Our driver was incredibly polite, safe, and helpful with guiding us. Highly recommend!"
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-orange/30 flex items-center justify-center font-bold text-sm">
+                            JD
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-sm">James & Sarah</h5>
+                            <span class="text-slate-400 text-xs">United Kingdom</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl relative">
+                    <i class="fas fa-quote-left text-brand-orange text-3xl absolute -top-4 left-6 opacity-30"></i>
+                    <div class="flex text-brand-gold gap-1 mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-200 text-sm italic mb-6 leading-relaxed">
+                        "Incredibly reliable service. They picked us up at the airport at 2 AM with a smile. The dual AC was amazing and there was more than enough room for our 8 suitcases. Best KDH service in Sri Lanka."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-orange/30 flex items-center justify-center font-bold text-sm">
+                            MK
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-sm">Michael K.</h5>
+                            <span class="text-slate-400 text-xs">Germany</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white/5 border border-white/10 p-6 rounded-2xl relative">
+                    <i class="fas fa-quote-left text-brand-orange text-3xl absolute -top-4 left-6 opacity-30"></i>
+                    <div class="flex text-brand-gold gap-1 mb-4">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-200 text-sm italic mb-6 leading-relaxed">
+                        "Super fast response over WhatsApp! We made an inquiry the night before and everything was arranged perfectly. Apeksha Chathuranga runs a professional business. Highly trusted team!"
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-orange/30 flex items-center justify-center font-bold text-sm">
+                            AR
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-sm">Ananya Rao</h5>
+                            <span class="text-slate-400 text-xs">India</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        <div class="bg-gradient-to-r from-brand-orange to-red-500 rounded-3xl p-8 sm:p-12 shadow-xl relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
+            <!-- Decorative circle -->
+            <div class="absolute -top-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-xl"></div>
+
+            <div class="text-center lg:text-left space-y-4 max-w-2xl relative z-10">
+                <h3 class="text-2xl sm:text-3xl font-black text-white">
+                    Need a Custom Itinerary for Sri Lanka?
+                </h3>
+                <p class="text-white/90 text-sm sm:text-base">
+                    Drop us your travel details and we will design a personalized tour package with one of our premium KDH vans. Available over email or instant WhatsApp.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 relative z-10 w-full sm:w-auto">
+                <a href="inquiry.html" class="bg-brand-darkblue hover:bg-slate-900 text-white font-bold px-6 py-4 rounded-xl shadow-lg transition-colors text-center">
+                    <i class="fas fa-paper-plane mr-1"></i> Send Online Inquiry
+                </a>
+                <a href="https://wa.me/94771083312?text=Hello%20Apeksha%20Travels!%20I'd%20like%20to%20inquire%20about%20a%20KDH%20van%20tour." target="_blank" class="bg-white text-emerald-600 hover:bg-slate-100 font-bold px-6 py-4 rounded-xl shadow-lg transition-colors text-center flex items-center justify-center gap-2">
+                    <i class="fab fa-whatsapp text-lg"></i> Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-slate-300 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <!-- Col 1: About Business -->
+            <div class="space-y-4">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="flex items-center justify-center bg-gradient-to-br from-brand-blue to-brand-lightblue p-1.5 rounded-lg text-white font-bold text-lg w-10 h-10 shadow-md">
+                        <span>A</span>
+                    </div>
+                    <div>
+                        <span class="text-lg font-black text-white tracking-tight block">APEKSHA</span>
+                        <span class="text-[10px] font-semibold text-brand-orange uppercase tracking-widest block -mt-1">Travels & Tours</span>
+                    </div>
+                </a>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    Apeksha Travels & Tours is your dedicated partner for luxury transport and specialized private tour packages in Sri Lanka, based out of gorgeous Rathgama.
+                </p>
+                <div class="flex gap-3 pt-2">
+                    <a href="https://wa.me/94771083312" target="_blank" class="w-9 h-9 bg-slate-800 hover:bg-green-500 hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 bg-slate-800 hover:bg-brand-blue hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 bg-slate-800 hover:bg-brand-orange hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Col 2: Quick Links -->
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4 pb-2 border-b border-slate-800 inline-block">Quick Links</h4>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="index.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Home</a></li>
+                    <li><a href="about.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> About Us</a></li>
+                    <li><a href="vehicles.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Vehicle Packages</a></li>
+                    <li><a href="contact.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Contact Us</a></li>
+                    <li><a href="inquiry.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Make Inquiry</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Contact Info -->
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4 pb-2 border-b border-slate-800 inline-block">Get In Touch</h4>
+                <ul class="space-y-3.5 text-sm">
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-phone-alt text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Call / SMS</span>
+                            <a href="tel:+94771083312" class="hover:text-white transition-colors font-semibold text-slate-300">+94 77 108 3312</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fab fa-whatsapp text-green-400 mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">WhatsApp Chat</span>
+                            <a href="https://wa.me/94771083312" target="_blank" class="hover:text-white transition-colors font-semibold text-slate-300">+94 77 108 3312</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-envelope text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Email Address</span>
+                            <a href="mailto:apeksha.roshan@gmail.com" class="hover:text-white transition-colors font-semibold text-slate-300">apeksha.roshan@gmail.com</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-map-marker-alt text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Head Office</span>
+                            <span class="text-slate-300">Anhandigoda Rd, Rathgama, Sri Lanka</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Service Hours -->
+            <div class="space-y-4">
+                <h4 class="text-white font-bold text-lg mb-2 pb-2 border-b border-slate-800 inline-block">Service Coverage</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    We offer round-the-clock airport transfers and all-island tour services. Our drivers are ready to travel to any corner of Sri Lanka at your convenient time.
+                </p>
+                <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+                    <i class="fas fa-clock text-brand-gold text-2xl"></i>
+                    <div>
+                        <span class="block text-xs font-semibold text-white uppercase">Operating Hours</span>
+                        <span class="block text-xs text-emerald-400 font-semibold">24 Hours / 7 Days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800/60 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+            <p>&copy; 2026 Apeksha Travels & Tours. All Rights Reserved. Co-designed by SterlinX.</p>
+            <div class="flex gap-4">
+                <a href="about.html" class="hover:text-slate-400 transition-colors">About Us</a>
+                <a href="contact.html" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
+                <a href="inquiry.html" class="hover:text-slate-400 transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Floating WhatsApp Button -->
+    <a href="https://wa.me/94771083312?text=Hello!%20I'd%20like%20to%20get%20a%20quote%20for%20a%20KDH%20van%20package." target="_blank" class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 z-50 group">
+        <i class="fab fa-whatsapp text-3xl"></i>
+        <span class="absolute right-16 bg-slate-900 text-white text-xs font-bold py-1.5 px-3 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            Chat with us
+        </span>
+    </a>
+
+    <!-- Hamburger Menu Script -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuToggle.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.className = 'fas fa-bars text-2xl';
+            } else {
+                icon.className = 'fas fa-times text-2xl';
+            }
+        });
+    </script>
+</body>
+</html>
