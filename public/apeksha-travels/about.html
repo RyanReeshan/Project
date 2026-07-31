@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Apeksha Travels & Tours</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            darkblue: '#0F4C81',
+                            blue: '#0070c0',
+                            lightblue: '#00b0f0',
+                            orange: '#ff6600',
+                            gold: '#ffc000',
+                            dark: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Top Contact Bar -->
+    <div class="bg-brand-darkblue text-white py-2 px-4 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex flex-wrap justify-center sm:justify-start items-center gap-4">
+                <a href="tel:+94771083312" class="hover:text-brand-lightblue transition-colors flex items-center gap-1">
+                    <i class="fas fa-phone-alt text-brand-gold"></i> +94 77 108 3312
+                </a>
+                <a href="mailto:apeksha.roshan@gmail.com" class="hover:text-brand-lightblue transition-colors flex items-center gap-1">
+                    <i class="fas fa-envelope text-brand-gold"></i> apeksha.roshan@gmail.com
+                </a>
+                <span class="flex items-center gap-1 text-slate-300">
+                    <i class="fas fa-map-marker-alt text-brand-gold"></i> Rathgama, Sri Lanka
+                </span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-slate-300 text-xs hidden md:inline">24/7 Tourist Support Service</span>
+                <div class="flex gap-2">
+                    <a href="https://wa.me/94771083312" target="_blank" class="text-green-400 hover:text-green-300 transition-colors">
+                        <i class="fab fa-whatsapp text-base"></i>
+                    </a>
+                    <a href="#" class="hover:text-brand-lightblue transition-colors"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-brand-lightblue transition-colors"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <!-- Logo Section -->
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="relative flex items-center justify-center bg-gradient-to-br from-brand-blue to-brand-lightblue p-2 rounded-lg text-white font-bold text-xl shadow-md w-12 h-12">
+                    <span class="text-2xl">A</span>
+                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-brand-orange rounded-full border-2 border-white"></div>
+                </div>
+                <div>
+                    <span class="text-xl sm:text-2xl font-extrabold text-brand-darkblue tracking-tight block">APEKSHA</span>
+                    <span class="text-xs font-semibold text-brand-orange uppercase tracking-widest block -mt-1">Travels & Tours</span>
+                </div>
+            </a>
+
+            <!-- Desktop Links -->
+            <ul class="hidden lg:flex items-center gap-8 font-medium text-slate-700">
+                <li><a href="index.html" class="hover:text-brand-blue transition-colors pb-1">Home</a></li>
+                <li><a href="about.html" class="text-brand-blue border-b-2 border-brand-blue pb-1 transition-all">About Us</a></li>
+                <li><a href="vehicles.html" class="hover:text-brand-blue transition-colors pb-1">Vehicle Packages</a></li>
+                <li><a href="contact.html" class="hover:text-brand-blue transition-colors pb-1">Contact Us</a></li>
+                <li>
+                    <a href="inquiry.html" class="bg-gradient-to-r from-brand-orange to-red-500 hover:from-brand-blue hover:to-brand-darkblue text-white px-5 py-2.5 rounded-full font-semibold shadow-md transition-all duration-300 flex items-center gap-2">
+                        <i class="fas fa-paper-plane"></i> Make Inquiry
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-toggle" class="lg:hidden text-brand-darkblue focus:outline-none p-2 rounded-md hover:bg-slate-100 transition-colors">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 shadow-inner px-4 py-4 space-y-3">
+            <a href="index.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">Home</a>
+            <a href="about.html" class="block px-4 py-2 rounded-lg bg-brand-blue/10 text-brand-blue font-semibold">About Us</a>
+            <a href="vehicles.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">Vehicle Packages</a>
+            <a href="contact.html" class="block px-4 py-2 rounded-lg hover:bg-slate-50 text-slate-700 hover:text-brand-blue font-medium transition-colors">Contact Us</a>
+            <a href="inquiry.html" class="block text-center bg-gradient-to-r from-brand-orange to-red-500 text-white py-2.5 rounded-lg font-semibold shadow-md transition-all">
+                <i class="fas fa-paper-plane mr-1"></i> Make Inquiry
+            </a>
+        </div>
+    </header>
+
+    <!-- Subpage Hero Header -->
+    <section class="bg-gradient-to-r from-brand-darkblue to-brand-blue text-white py-12 px-4 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('assets/images/kdh-van.jpg')] bg-cover bg-center mix-blend-multiply opacity-20"></div>
+        <div class="max-w-7xl mx-auto text-center space-y-3 relative z-10">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black">About Apeksha Travels</h1>
+            <p class="text-slate-200 text-sm sm:text-base max-w-xl mx-auto">Learn more about our dedication, fleet values, and our story of premium hospitality.</p>
+            <div class="flex justify-center items-center gap-2 text-xs text-brand-gold font-bold">
+                <a href="index.html" class="hover:underline">Home</a>
+                <i class="fas fa-chevron-right text-[10px]"></i>
+                <span class="text-white">About Us</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Company Story -->
+    <section class="py-16 px-4 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Content block -->
+        <div class="lg:col-span-7 space-y-6">
+            <span class="text-brand-orange font-bold text-sm tracking-widest uppercase block">Our Journey</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-brand-darkblue">Crafting Memorable Journeys Across Sri Lanka</h2>
+            <div class="w-16 h-1 bg-brand-orange rounded-full"></div>
+
+            <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                Welcome to <strong>Apeksha Travels & Tours</strong>! Established in the heart of Rathgama, Sri Lanka, we are an premier tourist transport and tour operations service. Guided by our founders’ vision of providing highly safe, comfortable, and luxury transport, we have quickly become a trusted travel companion for visitors from all over the globe.
+            </p>
+            <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                We specialize exclusively in high-roof multi-passenger transport featuring top-of-the-line <strong>Toyota HiAce KDH High Roof Vans</strong>. Every aspect of our vehicle maintenance, driver screening, and customer support represents the peak of Sri Lankan hospitality.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                <!-- Point 1 -->
+                <div class="flex gap-3">
+                    <div class="text-brand-orange text-xl mt-1"><i class="fas fa-check-circle"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-800">Our Mission</h4>
+                        <p class="text-slate-500 text-xs sm:text-sm mt-0.5">To provide secure, high-standard, and affordable passenger van solutions and customized tours, assuring comfort and unforgettable memories.</p>
+                    </div>
+                </div>
+                <!-- Point 2 -->
+                <div class="flex gap-3">
+                    <div class="text-brand-blue text-xl mt-1"><i class="fas fa-check-circle"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-800">Our Vision</h4>
+                        <p class="text-slate-500 text-xs sm:text-sm mt-0.5">To lead Sri Lanka's luxury passenger van transport industry through continuous service upgrades, reliability, and unparalleled local guiding.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Left Image Card block -->
+        <div class="lg:col-span-5 w-full">
+            <div class="relative bg-white p-4 rounded-3xl shadow-xl border border-slate-200 overflow-hidden group">
+                <img src="assets/images/kdh-van.jpg" alt="Apeksha Travels KDH" class="rounded-2xl object-cover w-full h-80 group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute bottom-6 left-6 right-6 bg-slate-900/95 backdrop-blur text-white p-4 rounded-xl border border-white/10">
+                    <span class="text-brand-orange text-xs uppercase font-extrabold tracking-wider block">Our Quality Seal</span>
+                    <span class="text-sm font-bold block mt-1">Dual Air Conditioning & Safety-First Features on every single tour!</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet The CEO / Card Section -->
+    <section class="bg-slate-100 py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-brand-orange font-bold text-sm tracking-widest uppercase block mb-1">Company Leadership</span>
+                <h2 class="text-3xl font-extrabold text-brand-darkblue">Meet Our Founder & CEO</h2>
+                <div class="w-16 h-1 bg-brand-orange mx-auto mt-2 rounded-full"></div>
+            </div>
+
+            <!-- CEO CARD combining Card detail and PHOTO-2026-07-24-17-12-59.jpg layout -->
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-12 border border-slate-200">
+                <!-- CEO Image representing Business Card -->
+                <div class="md:col-span-5 bg-gradient-to-br from-brand-darkblue via-brand-blue to-slate-900 p-8 flex flex-col justify-between text-white relative">
+                    <!-- Subtle brand icon backdrop -->
+                    <div class="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-2xl"></div>
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-brand-orange/10 rounded-full blur-xl"></div>
+
+                    <div class="relative z-10">
+                        <span class="bg-brand-orange/20 text-brand-orange border border-brand-orange/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Managing Director</span>
+                        <h3 class="text-2xl font-black mt-4 tracking-tight leading-none text-white">APEKSHA CHATHURANGA</h3>
+                        <p class="text-slate-300 text-xs font-semibold uppercase tracking-widest mt-1">Founder / CEO</p>
+                    </div>
+
+                    <!-- Displaying the Business Card Image directly to add authenticity -->
+                    <div class="my-6 relative z-10 border-2 border-white/20 rounded-xl overflow-hidden shadow-lg group">
+                        <img src="assets/images/logo-card.jpg" alt="Apeksha Travels Business Card" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity text-white font-bold text-xs">
+                            <i class="fas fa-search-plus mr-1"></i> Apeksha Travels Card
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-slate-300 relative z-10 italic">
+                        "Your travel expectations inspire our dedication. We ensure every single journey you make is safe, exquisite, and filled with true Sri Lankan warmth."
+                    </p>
+                </div>
+
+                <!-- CEO Message & Direct Contact Details -->
+                <div class="md:col-span-7 p-8 sm:p-12 space-y-6 flex flex-col justify-center">
+                    <h4 class="font-extrabold text-2xl text-brand-darkblue">Welcome message from Apeksha</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Dear Guests and Friends, thank you for trusting Apeksha Travels & Tours. Our goal is not just transportation but creating a comfortable, relaxing, and personalized escape for you.
+                    </p>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        By focusing strictly on specialized high-roof Toyota HiAce packages, we promise that our guests enjoy superior spacing, modern refrigeration options, luxury recliner support, and reliable driving, whether traversing Galle coastlines or the Ella highlands. Please feel free to reach out to me directly on WhatsApp anytime!
+                    </p>
+
+                    <!-- Contact Details styled with the Card colours -->
+                    <div class="border-t border-slate-100 pt-6 space-y-3">
+                        <h5 class="text-slate-800 font-bold text-sm uppercase tracking-wide">Direct Business Card Contact</h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Direct Phone -->
+                            <a href="tel:+94771083312" class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200/60 hover:border-brand-blue hover:bg-slate-100/50 transition-all group">
+                                <div class="w-10 h-10 bg-brand-blue/10 text-brand-blue rounded-lg flex items-center justify-center text-base group-hover:bg-brand-blue group-hover:text-white transition-colors">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] text-slate-400 font-bold uppercase">Phone Helpline</span>
+                                    <span class="text-slate-700 font-semibold text-xs sm:text-sm">077 108 33 12</span>
+                                </div>
+                            </a>
+
+                            <!-- Direct Email -->
+                            <a href="mailto:apeksha.roshan@gmail.com" class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200/60 hover:border-brand-blue hover:bg-slate-100/50 transition-all group">
+                                <div class="w-10 h-10 bg-brand-blue/10 text-brand-blue rounded-lg flex items-center justify-center text-base group-hover:bg-brand-blue group-hover:text-white transition-colors">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="overflow-hidden">
+                                    <span class="block text-[10px] text-slate-400 font-bold uppercase">Direct Email</span>
+                                    <span class="text-slate-700 font-semibold text-xs truncate block">apeksha.roshan@gmail.com</span>
+                                </div>
+                            </a>
+
+                            <!-- Direct WhatsApp -->
+                            <a href="https://wa.me/94771083312" class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200/60 hover:border-green-500 hover:bg-slate-100/50 transition-all group sm:col-span-2">
+                                <div class="w-10 h-10 bg-green-500/10 text-green-600 rounded-lg flex items-center justify-center text-base group-hover:bg-green-500 group-hover:text-white transition-colors">
+                                    <i class="fab fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] text-slate-400 font-bold uppercase">CEO Personal WhatsApp</span>
+                                    <span class="text-slate-700 font-semibold text-xs sm:text-sm">Message +94 77 108 3312</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Values Section -->
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="text-brand-orange font-bold text-sm tracking-widest uppercase block mb-1">Our Core Pillars</span>
+            <h2 class="text-3xl font-extrabold text-brand-darkblue">What We Stand For</h2>
+            <div class="w-16 h-1 bg-brand-orange mx-auto mt-2 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Pillar 1 -->
+            <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-brand-orange text-center space-y-4">
+                <div class="w-16 h-16 bg-brand-orange/10 text-brand-orange rounded-full flex items-center justify-center text-2xl mx-auto">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="font-extrabold text-xl text-slate-800">Genuine Hospitality</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    We treat our travellers as guest-deities (Atithi Devo Bhava). Our warm attitude and helpful guidelines set us apart from simple taxi drivers.
+                </p>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-brand-blue text-center space-y-4">
+                <div class="w-16 h-16 bg-brand-blue/10 text-brand-blue rounded-full flex items-center justify-center text-2xl mx-auto">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="font-extrabold text-xl text-slate-800">Punctuality</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Time is precious when on vacation. Our KDH passenger vans arrive at least 15 minutes prior to the booked time for airport Pickups and daily departures.
+                </p>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-brand-orange text-center space-y-4">
+                <div class="w-16 h-16 bg-brand-orange/10 text-brand-orange rounded-full flex items-center justify-center text-2xl mx-auto">
+                    <i class="fas fa-shield-virus"></i>
+                </div>
+                <h3 class="font-extrabold text-xl text-slate-800">Flawless Cleanliness</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Each vehicle undergoes deep cleaning, polishing, and internal disinfection before setting off on your package. We maintain a showroom condition.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="bg-gradient-to-r from-brand-orange to-red-500 text-white py-12 px-4 text-center space-y-4">
+        <h3 class="text-2xl sm:text-3xl font-black">Experience the True Wonders of Sri Lanka</h3>
+        <p class="text-white/90 text-sm sm:text-base max-w-xl mx-auto">Let Apeksha Travels arrange the finest Toyota KDH High Roof Package matching your needs.</p>
+        <div class="flex flex-wrap justify-center gap-4 pt-2">
+            <a href="vehicles.html" class="bg-brand-darkblue hover:bg-slate-900 text-white font-bold px-6 py-3.5 rounded-xl shadow-md transition-colors">
+                <i class="fas fa-car-side"></i> View Vehicles
+            </a>
+            <a href="inquiry.html" class="bg-white text-brand-darkblue hover:bg-slate-50 font-bold px-6 py-3.5 rounded-xl shadow-md transition-colors">
+                <i class="fas fa-paper-plane"></i> Book / Inquire Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-slate-300 pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <!-- Col 1: About Business -->
+            <div class="space-y-4">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="flex items-center justify-center bg-gradient-to-br from-brand-blue to-brand-lightblue p-1.5 rounded-lg text-white font-bold text-lg w-10 h-10 shadow-md">
+                        <span>A</span>
+                    </div>
+                    <div>
+                        <span class="text-lg font-black text-white tracking-tight block">APEKSHA</span>
+                        <span class="text-[10px] font-semibold text-brand-orange uppercase tracking-widest block -mt-1">Travels & Tours</span>
+                    </div>
+                </a>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                    Apeksha Travels & Tours is your dedicated partner for luxury transport and specialized private tour packages in Sri Lanka, based out of gorgeous Rathgama.
+                </p>
+                <div class="flex gap-3 pt-2">
+                    <a href="https://wa.me/94771083312" target="_blank" class="w-9 h-9 bg-slate-800 hover:bg-green-500 hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 bg-slate-800 hover:bg-brand-blue hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-9 h-9 bg-slate-800 hover:bg-brand-orange hover:text-white rounded-lg flex items-center justify-center transition-all text-slate-400">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Col 2: Quick Links -->
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4 pb-2 border-b border-slate-800 inline-block">Quick Links</h4>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="index.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Home</a></li>
+                    <li><a href="about.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> About Us</a></li>
+                    <li><a href="vehicles.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Vehicle Packages</a></li>
+                    <li><a href="contact.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Contact Us</a></li>
+                    <li><a href="inquiry.html" class="hover:text-brand-lightblue transition-colors flex items-center gap-1.5"><i class="fas fa-chevron-right text-xs text-brand-orange"></i> Make Inquiry</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Contact Info -->
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4 pb-2 border-b border-slate-800 inline-block">Get In Touch</h4>
+                <ul class="space-y-3.5 text-sm">
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-phone-alt text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Call / SMS</span>
+                            <a href="tel:+94771083312" class="hover:text-white transition-colors font-semibold text-slate-300">+94 77 108 3312</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fab fa-whatsapp text-green-400 mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">WhatsApp Chat</span>
+                            <a href="https://wa.me/94771083312" target="_blank" class="hover:text-white transition-colors font-semibold text-slate-300">+94 77 108 3312</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-envelope text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Email Address</span>
+                            <a href="mailto:apeksha.roshan@gmail.com" class="hover:text-white transition-colors font-semibold text-slate-300">apeksha.roshan@gmail.com</a>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2.5">
+                        <i class="fas fa-map-marker-alt text-brand-orange mt-1"></i>
+                        <div>
+                            <span class="block text-slate-400 text-xs">Head Office</span>
+                            <span class="text-slate-300">Anhandigoda Rd, Rathgama, Sri Lanka</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Service Hours -->
+            <div class="space-y-4">
+                <h4 class="text-white font-bold text-lg mb-2 pb-2 border-b border-slate-800 inline-block">Service Coverage</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    We offer round-the-clock airport transfers and all-island tour services. Our drivers are ready to travel to any corner of Sri Lanka at your convenient time.
+                </p>
+                <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-800 flex items-center gap-3">
+                    <i class="fas fa-clock text-brand-gold text-2xl"></i>
+                    <div>
+                        <span class="block text-xs font-semibold text-white uppercase">Operating Hours</span>
+                        <span class="block text-xs text-emerald-400 font-semibold">24 Hours / 7 Days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800/60 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+            <p>&copy; 2026 Apeksha Travels & Tours. All Rights Reserved. Co-designed by SterlinX.</p>
+            <div class="flex gap-4">
+                <a href="about.html" class="hover:text-slate-400 transition-colors">About Us</a>
+                <a href="contact.html" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
+                <a href="inquiry.html" class="hover:text-slate-400 transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Floating WhatsApp Button -->
+    <a href="https://wa.me/94771083312?text=Hello!%20I'd%20like%20to%20get%20a%20quote%20for%20a%20KDH%20van%20package." target="_blank" class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 z-50 group">
+        <i class="fab fa-whatsapp text-3xl"></i>
+        <span class="absolute right-16 bg-slate-900 text-white text-xs font-bold py-1.5 px-3 rounded-lg shadow-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            Chat with us
+        </span>
+    </a>
+
+    <!-- Hamburger Menu Script -->
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuToggle.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.className = 'fas fa-bars text-2xl';
+            } else {
+                icon.className = 'fas fa-times text-2xl';
+            }
+        });
+    </script>
+</body>
+</html>
